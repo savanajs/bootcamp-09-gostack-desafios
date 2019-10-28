@@ -1,7 +1,7 @@
 const express = require('express');
 const server = express();
 
-// Para ler o body json de uma reqyuisição
+// Para ler o body json de uma requisição
 server.use(express.json());
 
 const projects = [];
