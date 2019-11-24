@@ -118,7 +118,7 @@ yarn eslint --init
 # Y
 ```
 
-** VScode autocorretor ** 
+** VScode autocorretor **
 
 Abrir o arquivo settings.json (crtl + shift + p).
 
@@ -149,3 +149,37 @@ Abrir o arquivo settings.json (crtl + shift + p).
 ```sh
 yarn eslint --fix src --ext .js
 ```
+
+#### PRETTIER
+
+** Verificar de tamanho de linhas **
+
+```sh
+yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+```
+
+** E insira o prettier no .eslintrc.js **
+
+```js
+{
+ extends: [
+    'airbnb-base',
+    'prettier'
+  ],
+  plugins: [
+    'prettier'
+  ],
+}
+```
+
+** Criar arquivo no root chamado .prettierrc **
+
+```json
+{
+    "singleQuote": true,
+    "trailingComma": "es5"
+}
+```
+
+
+
