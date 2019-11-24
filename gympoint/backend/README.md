@@ -220,6 +220,7 @@ yarn add sucrase nodemon -D
 
 VSCODE > Launch Program > Adicionar nova configuração > node
 
+```json
 {
     // Use o IntelliSense para aprender sobre possíveis atributos.
     // Passe o mouse para ver as descrições dos atributos existentes.
@@ -235,6 +236,7 @@ VSCODE > Launch Program > Adicionar nova configuração > node
         }
     ]
 }
+```
 
 #### Database
 
