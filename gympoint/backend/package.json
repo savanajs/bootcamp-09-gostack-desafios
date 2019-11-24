@@ -1,11 +1,14 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "src/app.js",
+  "main": "src/server.js",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "dev:debug": "nodemon --inspect src/server.js"
+    "dev:debug": "nodemon --inspect src/server.js",
+    "eslint:fix": "yarn eslint --fix src --ext .js",
+    "start": "sucrase ./src -d ./dist --transforms imports",
+    "build": "node dist/server.js"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
@@ -19,6 +22,8 @@
     "sucrase": "^3.10.1"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "pg": "^7.14.0",
     "pg-hstore": "^2.3.3",

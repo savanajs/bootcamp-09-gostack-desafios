@@ -254,3 +254,45 @@ yarn add pg pg-hstore
 ```
 
 Crie um arquivo de configuração (.sequelizerc)
+
+## Comandos no Sequelize
+
+#### Criar Seed
+
+```sh
+yarn sequelize seed:generate --name admin-user
+```
+
+#### Executar Seeds
+
+```sh
+yarn sequelize db:seed:all
+```
+
+#### Criar migration
+
+```sh
+yarn sequelize migration:create --name=create-users
+```
+
+#### Criar migrations
+
+```sh
+yarn sequelize db:migrate
+```
+
+#### Remover a ultima migration adicionada
+
+```sh
+yarn sequelize db:migrate:undo
+```
+
+#### Remover todas as migrations
+
+```sh
+yarn sequelize db:migrate:undo:all
+```
+
+## MD5 Gerar secret
+
+https://www.md5online.org/
