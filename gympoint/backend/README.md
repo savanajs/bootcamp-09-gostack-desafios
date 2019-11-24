@@ -296,3 +296,7 @@ yarn sequelize db:migrate:undo:all
 ## MD5 Gerar secret
 
 https://www.md5online.org/
+
+## YUP
+
+Biblioteca para validações back e front-end
