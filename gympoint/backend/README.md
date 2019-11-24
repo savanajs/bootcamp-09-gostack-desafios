@@ -88,7 +88,7 @@ yarn add eslint-plugin-import eslint@5.16.0 -D
 
 É preciso instalar a extensão do eslint no vscode também.
 
-** Criar arquivo de configuração do eslint **
+##### Criar arquivo de configuração do eslint
 
 ```sh
 yarn eslint --init
@@ -118,7 +118,7 @@ yarn eslint --init
 # Y
 ```
 
-** VScode autocorretor **
+##### VScode autocorretor
 
 Abrir o arquivo settings.json (crtl + shift + p).
 
@@ -152,13 +152,13 @@ yarn eslint --fix src --ext .js
 
 #### PRETTIER
 
-** Verificar de tamanho de linhas **
+##### Verificar de tamanho de linhas
 
 ```sh
 yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
 ```
 
-** E insira o prettier no .eslintrc.js **
+##### E insira o prettier no .eslintrc.js
 
 ```js
 {
@@ -172,7 +172,7 @@ yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
 }
 ```
 
-** Criar arquivo no root chamado .prettierrc **
+##### Criar arquivo no root chamado .prettierrc
 
 ```json
 {
@@ -181,5 +181,74 @@ yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
 }
 ```
 
+#### Servidor
 
+##### Instalar Express
 
+```sh
+yarn add express
+```
+
+##### Instalar Nodemon & Sucrase
+
+Para funcionar os imports no node
+
+```sh
+yarn add sucrase nodemon -D
+```
+
+##### Criar um arquivo nodemon.json
+
+```json
+{
+    "execMap": {
+        "js": "node -r sucrase/register"
+    }
+}
+```
+
+##### No package.json
+
+```json
+"scripts": {
+    "dev": "nodemon src/server.js",
+    "dev:debug": "nodemon --inspect src/server.js"
+}
+```
+
+##### Configurações de debug
+
+VSCODE > Launch Program > Adicionar nova configuração > node
+
+{
+    // Use o IntelliSense para aprender sobre possíveis atributos.
+    // Passe o mouse para ver as descrições dos atributos existentes.
+    // Para obter mais informações, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Launch Program",
+            "restart": true,
+            "protocol": "inspector"
+        }
+    ]
+}
+
+#### Database
+
+##### Instalar Sequelize
+
+```sh
+yarn add sequelize
+yarn add sequelize-cli -D
+```
+
+##### Instalar BD postgrees
+
+```sh
+yarn add pg pg-hstore
+```
+
+Crie um arquivo de configuração (.sequelizerc)
