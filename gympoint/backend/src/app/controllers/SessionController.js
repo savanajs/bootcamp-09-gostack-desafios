@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import configAuth from '../../config/auth';
 
 import User from '../models/User';
-
+// prettier-ignore
 class SessionController {
   async store(req, res) {
     const { email, password } = req.body;
