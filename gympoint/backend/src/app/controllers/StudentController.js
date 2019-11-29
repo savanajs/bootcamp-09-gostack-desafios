@@ -28,4 +28,4 @@ class StudentController {
   }
 }
 
-export default new StudentController()
+export default new StudentController();

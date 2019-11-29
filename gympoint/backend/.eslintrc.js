@@ -4,8 +4,8 @@ module.exports = {
         "node": true
     },
     "extends": [
-        "prettier",
-        "airbnb-base"
+      "airbnb-base",
+      "prettier"
     ],
     "plugins": [
         "prettier"
