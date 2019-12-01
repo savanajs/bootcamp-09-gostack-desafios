@@ -1,0 +1,15 @@
+<strong>Olá, {{ student.name }}</strong>
+<p>Sua matricula na Gympoint foi concluida com sucesso, veja abaixo as informações do seu plano</p>
+<p>
+  <strong>Cliente:</strong> {{student.name}} <br />
+  <strong>Plano:</strong> {{plan.title}} <br />
+  <strong>Tempo:</strong> {{plan.duration}} Meses<br />
+  <strong>Valor mensal:</strong> {{price}} <br />
+  <strong>Valor total do plano:</strong> {{total}} <br />
+  <br />
+  <span>
+    Seu plano estará disponivel: <br />
+    <b>Entre {{start_date}}</b> <br />
+    <b>até {{end_date}}</b>
+  </span>
+</p>

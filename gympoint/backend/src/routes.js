@@ -3,6 +3,7 @@ import { Router } from 'express';
 import ValidatorsSessionStore from './app/validators/SessionStore';
 import ValidatorsStudentStore from './app/validators/StudentStore';
 import ValidatorsPlanStore from './app/validators/PlanStore';
+import ValidatorsEnrollmentStore from './app/validators/EnrollmentStore';
 
 import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
@@ -35,8 +36,16 @@ routes.delete('/plans/:id', PlanController.destroy);
  * Enrollment Route
  */
 routes.get('/enrollments', EnrollmentController.index);
-routes.post('/enrollments', EnrollmentController.store);
-routes.put('/enrollments/:id', EnrollmentController.update);
+routes.post(
+  '/enrollments',
+  ValidatorsEnrollmentStore,
+  EnrollmentController.store
+);
+routes.put(
+  '/enrollments/:id',
+  ValidatorsEnrollmentStore,
+  EnrollmentController.update
+);
 routes.delete('/enrollments/:id', EnrollmentController.destroy);
 
 export default routes;
