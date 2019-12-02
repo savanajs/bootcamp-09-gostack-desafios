@@ -9,6 +9,9 @@ import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
 import EnrollmentController from './app/controllers/EnrollmentController';
+import CheckinStudentController from './app/controllers/CheckinStudentController';
+import HelpOrderStudentController from './app/controllers/HelpOrderStudentController';
+import AnswerStudentController from './app/controllers/AnswerStudentController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -22,7 +25,30 @@ routes.post('/session', ValidatorsSessionStore, SessionController.store);
 
 routes.use(authMiddleware);
 
+/*
+ * Students Route
+ */
+
 routes.post('/students', ValidatorsStudentStore, StudentController.store);
+
+/*
+ * Checkin Route
+ */
+routes.get('/students/:student_id/checkins', CheckinStudentController.index);
+routes.post('/students/:student_id/checkins', CheckinStudentController.store);
+
+/*
+ * Help Order Route
+ */
+routes.get(
+  '/students/:student_id/help-orders',
+  HelpOrderStudentController.index
+);
+routes.post(
+  '/students/:student_id/help-orders',
+  HelpOrderStudentController.store
+);
+routes.patch('/help-orders/:id/answer', AnswerStudentController.update);
 
 /*
  * Plans Route
