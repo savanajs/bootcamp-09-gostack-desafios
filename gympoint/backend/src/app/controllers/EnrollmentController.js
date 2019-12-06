@@ -5,7 +5,9 @@ import Student from '../models/Student';
 import Plan from '../models/Plan';
 
 import GetPlanByIdService from '../services/GetPlanByIdService';
-import SendMailEnrollmentCreatedService from '../services/SendMailEnrollmentCreatedService';
+
+import Queue from '../../lib/Queue';
+import SendMailEnrollmentCreated from '../jobs/SendMailEnrollmentCreated';
 
 class EnrollmentController {
   async index(req, res) {
@@ -33,11 +35,27 @@ class EnrollmentController {
     req.body.end_date = addMonths(new Date(req.body.start_date), plan.duration);
     req.body.price = plan.price * plan.duration;
 
-    const Enrollments = await Enrollment.create(req.body);
+    const enrollments = await Enrollment.create(req.body);
+    const enrollment = await Enrollment.findByPk(enrollments.id, {
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['title', 'duration', 'price'],
+        },
+      ],
+    });
 
-    SendMailEnrollmentCreatedService.run(Enrollments);
+    await Queue.add(SendMailEnrollmentCreated.key, {
+      enrollment,
+    });
 
-    return res.json(Enrollments);
+    return res.json(enrollments);
   }
 
   async update(req, res) {

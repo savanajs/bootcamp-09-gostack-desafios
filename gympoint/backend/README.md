@@ -300,3 +300,11 @@ https://www.md5online.org/
 ## YUP
 
 Biblioteca para validações back e front-end
+
+## Filas
+
+Para executar as filas
+
+```sh
+yarn queue
+```
