@@ -14,7 +14,11 @@ class HelpOrder extends Model {
       }
     );
 
-    return sequelize;
+    return this;
+  }
+
+  static associate(models) {
+    this.belongsTo(models.Student, { foreignKey: 'student_id', as: 'student' });
   }
 }
 

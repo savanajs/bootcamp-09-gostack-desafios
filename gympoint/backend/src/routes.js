@@ -12,6 +12,7 @@ import EnrollmentController from './app/controllers/EnrollmentController';
 import CheckinStudentController from './app/controllers/CheckinStudentController';
 import HelpOrderStudentController from './app/controllers/HelpOrderStudentController';
 import AnswerStudentController from './app/controllers/AnswerStudentController';
+import NotificationsController from './app/controllers/NotificationController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -73,5 +74,10 @@ routes.put(
   EnrollmentController.update
 );
 routes.delete('/enrollments/:id', EnrollmentController.destroy);
+
+/*
+ * Notifications
+ */
+routes.get('/notifications', NotificationsController.index);
 
 export default routes;

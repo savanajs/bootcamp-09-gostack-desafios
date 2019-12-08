@@ -9,8 +9,17 @@ import GetPlanByIdService from '../services/GetPlanByIdService';
 import Queue from '../../lib/Queue';
 import SendMailEnrollmentCreated from '../jobs/SendMailEnrollmentCreated';
 
+import Cache from '../../lib/Cache';
+
 class EnrollmentController {
   async index(req, res) {
+    const cacheKey = `enrollment:default:enrollments:1`;
+    const cached = await Cache.get(cacheKey);
+
+    if (cached) {
+      return res.json(cached);
+    }
+
     const Enrollments = await Enrollment.findAll({
       include: [
         {
@@ -36,6 +45,9 @@ class EnrollmentController {
     req.body.price = plan.price * plan.duration;
 
     const enrollments = await Enrollment.create(req.body);
+
+    await Cache.invalidatePrefix(`enrollment:default:enrollments:1`);
+
     const enrollment = await Enrollment.findByPk(enrollments.id, {
       include: [
         {
@@ -73,6 +85,8 @@ class EnrollmentController {
 
     const EnrollmentUpdated = await EnrollmentCurrent.update(req.body);
 
+    await Cache.invalidatePrefix(`enrollment:default:enrollments:1`);
+
     return res.json(EnrollmentUpdated);
   }
 
@@ -85,6 +99,8 @@ class EnrollmentController {
       return res.status(400).json({ error: 'Enrollment not found' });
 
     await EnrollmentCurrent.destroy();
+
+    await Cache.invalidatePrefix(`enrollment:default:enrollments:1`);
 
     return res.json({ deleted: true });
   }

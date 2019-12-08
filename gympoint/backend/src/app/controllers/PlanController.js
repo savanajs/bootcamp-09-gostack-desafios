@@ -1,7 +1,16 @@
 import Plan from '../models/Plan';
 
+import Cache from '../../lib/Cache';
+
 class PlanController {
   async index(req, res) {
+    const cacheKey = `plan:default:plans:1`;
+    const cached = await Cache.get(cacheKey);
+
+    if (cached) {
+      return res.json(cached);
+    }
+
     const plans = await Plan.findAll();
 
     return res.json(plans);
@@ -9,6 +18,8 @@ class PlanController {
 
   async store(req, res) {
     const plans = await Plan.create(req.body);
+
+    await Cache.invalidatePrefix(`plan:default:plans:1`);
 
     return res.json(plans);
   }
@@ -22,6 +33,8 @@ class PlanController {
 
     const planUpdated = await planCurrent.update(req.body);
 
+    await Cache.invalidatePrefix(`plan:default:plans:1`);
+
     return res.json(planUpdated);
   }
 
@@ -33,6 +46,8 @@ class PlanController {
     if (!planExists) return res.status(400).json({ error: 'Plan not found' });
 
     await planCurrent.destroy();
+
+    await Cache.invalidatePrefix(`plan:default:plans:1`);
 
     return res.json({ deleted: true });
   }
