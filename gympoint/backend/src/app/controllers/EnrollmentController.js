@@ -21,6 +21,7 @@ class EnrollmentController {
     }
 
     const Enrollments = await Enrollment.findAll({
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
       include: [
         {
           model: Student,
