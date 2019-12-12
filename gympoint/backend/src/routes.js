@@ -30,6 +30,7 @@ routes.use(authMiddleware);
  * Students Route
  */
 
+routes.get('/students', StudentController.index);
 routes.post('/students', ValidatorsStudentStore, StudentController.store);
 
 /*
