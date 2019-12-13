@@ -1,15 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Main from './pages/Main';
-import Repository from './pages/Repository';
+import SignIn from './pages/SignIn';
+import Students from './pages/Students';
 
 export default function Routes() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact component={Main} />
-        <Route path="/repository/:repositories" component={Repository} />
+        <Route path="/" exact component={SignIn} />
+        <Route path="/students" component={Students} />
       </Switch>
     </BrowserRouter>
   );
