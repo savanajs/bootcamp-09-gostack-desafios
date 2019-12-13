@@ -1,21 +1,96 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-  max-width: 700px;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  margin: 80px auto;
+  background-color: #f5f5f5;
+  height: 100vh;
 
-  h1 {
-    font-size: 20px;
+  .list__header {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    margin-bottom: 25px;
+    .col-left {
+      flex: 1;
+    }
+    .col-right {
+      display: flex;
+      .area-button {
+        display: flex;
+        margin-right: 15px;
+      }
+      .area-buttons {
+        display: flex;
+        .btn + .btn {
+          margin-left: 10px;
+        }
+      }
+      form {
+        .input {
+          width: 237px;
+        }
+      }
+    }
+  }
 
-    svg {
-      margin-right: 10px;
+  .list__content {
+    .card {
+      padding: 20px 25px;
+    }
+  }
+
+  .content {
+    > .card {
+      padding: 30px;
+    }
+  }
+
+  table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    thead > tr > th {
+      text-transform: uppercase;
+    }
+    thead > tr > th {
+      padding: 14px 0px 5px 0px;
+      width: 20%;
+    }
+    tbody > tr > td {
+      padding: 14px 0px;
+    }
+    tbody tr + tr {
+      border-top: 1px solid #eeeeee;
+    }
+    .center {
+      text-align: center;
+    }
+    .right {
+      text-align: right;
+    }
+    tbody > tr > td {
+      color: #666666;
+    }
+    .item-large {
+      width: 38%;
+    }
+    .actions {
+      a {
+        text-decoration: none;
+        + a {
+          margin-left: 20px;
+        }
+      }
+      .edit {
+        color: #4d85ee;
+      }
+      .delete {
+        color: #de3b3b;
+      }
+    }
+  }
+
+  .fa-check-circle {
+    color: #cccccc;
+    &.active {
+      color: #42cb59;
     }
   }
 `;

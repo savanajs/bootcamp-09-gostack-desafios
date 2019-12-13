@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 import { darken } from 'polished';
 
 export default createGlobalStyle`
+  @import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
   @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 
   * {
@@ -41,34 +42,78 @@ export default createGlobalStyle`
   }
 
   .shell {
-    padding: 0px 20px;
-    max-width: 1200px;
+    padding: 0px 20px;  
     margin: 0 auto;
+    &:not(.shell--small){
+      max-width: 1200px;
+    }
+    &--small {
+      max-width: 900px;
+    }
+  }
+
+  .anwser {
+    margin-bottom: 20px;
+    h2 {
+      color: #222;
+      font-size: 14px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+  }
+
+  .modal-close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 20px;
+    cursor: pointer;
   }
 
   .btn {
     cursor: pointer;
     width: 100%;
     text-align: center;
-    background-color: #ee4d64;
     color: #fff;
     border: none;
     border-radius: 4px;
     transition: background 0.2s;
     will-change: background;
+    display: flex;
+    align-items: center;
+
+    > i {
+      margin-right: 10px;
+    }
+
+    &--primary {
+      background-color: #ee4d64;
+      &:hover {
+        background-color: ${darken(0.08, '#ee4d64')};
+      }
+    }
+
+    &--disable {
+      background-color: #CCCCCC;
+      &:hover {
+        background-color: ${darken(0.08, '#CCCCCC')};
+      }
+    }
+
     &--large {
       padding: 14px;
       font-weight: bold;
     }
+
     &--normal {
       padding: 8px 14px;
       text-decoration: none;
-      display: block;
       text-transform: uppercase;
     }
 
-    &:hover {
-      background-color: ${darken(0.08, '#ee4d64')};
+    &--center {
+      justify-content: center;
     }
+
   }
 `;
