@@ -1,5 +1,6 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('students', {
+  up: (queryInterface, Sequelize) =>
+    queryInterface.createTable('students', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -16,7 +17,7 @@ module.exports = {
         unique: true,
       },
       age: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       weight: {

@@ -31,7 +31,10 @@ routes.use(authMiddleware);
  */
 
 routes.get('/students', StudentController.index);
+routes.get('/student/:id', StudentController.show);
 routes.post('/students', ValidatorsStudentStore, StudentController.store);
+routes.put('/students/:id', ValidatorsStudentStore, StudentController.update);
+routes.delete('/students/:id', StudentController.destroy);
 
 /*
  * Checkin Route

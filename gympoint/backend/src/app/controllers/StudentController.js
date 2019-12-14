@@ -1,9 +1,12 @@
 import { Op } from 'sequelize';
 import Student from '../models/Student';
 
+import Cache from '../../lib/Cache';
+
 // prettier-ignore
 class StudentController {
   async index(req, res) {
+
     const { q } = req.query;
     let students;
 
@@ -20,11 +23,28 @@ class StudentController {
 
     } else {
 
+      const cacheKey = `student:default:students:1`;
+      const cached = await Cache.get(cacheKey);
+
+      if (cached) {
+        return res.json(cached);
+      }
+
       students = await Student.findAll();
 
     }
 
     return res.json(students);
+  }
+
+  async show(req, res) {
+    const student = await Student.findByPk(req.params.id);
+
+    if (!student) {
+      return res.status(400).json({ error: 'Student already exists.' });
+    }
+
+    res.json(student);
   }
 
   async store(req, res) {
@@ -42,6 +62,8 @@ class StudentController {
       req.body,
     );
 
+    await Cache.invalidatePrefix(`student:default:students:1`);
+
     res.json({
       id,
       name,
@@ -50,6 +72,32 @@ class StudentController {
       weight,
       height,
     });
+  }
+
+  async update(req, res) {
+
+    const studentCurrent = await Student.findByPk(req.params.id);
+
+    if (!studentCurrent) return res.status(400).json({ error: 'Student not found' });
+
+    const studentUpdated = await studentCurrent.update(req.body);
+
+    await Cache.invalidatePrefix(`student:default:students:1`);
+
+    return res.json(studentUpdated);
+  }
+
+  async destroy(req, res) {
+
+    const studentCurrent = await Student.findByPk(req.params.id);
+
+    if (!studentCurrent) return res.status(400).json({ error: 'Student not found' });
+
+    await studentCurrent.destroy();
+
+    await Cache.invalidatePrefix(`student:default:students:1`);
+
+    return res.json({ deleted: true });
   }
 }
 
