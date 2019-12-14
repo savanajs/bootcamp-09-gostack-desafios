@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import { Form, Input, Textarea } from '@rocketseat/unform';
 
 import Modal from '../../components/Modal';
-import Dashboard from '../../components/Dashboard';
 import { FormWrapper } from '../../styles/form.js';
 import { Table } from '../../styles/table.js';
 
@@ -21,7 +20,7 @@ export default class Students extends Component {
     super(props);
 
     this.state = {
-      openModal: true,
+      openModal: false,
     };
 
     this.handleCloseModal = this.handleCloseModal.bind(this);
@@ -36,145 +35,143 @@ export default class Students extends Component {
   render() {
     return (
       <>
-        <Dashboard>
-          <div className="shell">
-            <div className="list__header">
-              <div className="col-left">
-                <h1>Gerenciando alunos</h1>
-              </div>
-              <div className="col-right">
-                <div className="area-button">
-                  <a href="#" className="btn btn--normal btn--primary btn-link">
-                    <i className="fa fa-plus" aria-hidden="true" />
-                    Cadastrar
-                  </a>
-                </div>
-                <FormWrapper>
-                  <Form schema={schemaSearch}>
-                    <div className="input-control input-search">
-                      <Input
-                        className="input input--search"
-                        id="search"
-                        name="search"
-                        type="search"
-                        placeholder="Buscar aluno"
-                      />
-                    </div>
-                  </Form>
-                </FormWrapper>
-              </div>
+        <div className="shell">
+          <div className="list__header">
+            <div className="col-left">
+              <h1>Gerenciando alunos</h1>
             </div>
-            <div className="list__content">
-              <div className="card">
-                <Table>
-                  <thead>
-                    <tr>
-                      <th className="item-large">Nome</th>
-                      <th className="item-email">E-mail</th>
-                      <th className="center item-age">Idade</th>
-                      <th className="center item-actived">Ativa</th>
-                      <th />
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Meu nome</td>
-                      <td>email@email.com</td>
-                      <td className="center">20</td>
-                      <td className="center">
-                        <i
-                          className="fa fa-check-circle active"
-                          aria-hidden="true"
-                        />
-                      </td>
-                      <td className="right actions">
-                        <a href="" className="edit">
-                          editar
-                        </a>
-                        <a href="" className="delete">
-                          apagar
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Meu nome</td>
-                      <td>email@email.com</td>
-                      <td className="center">20</td>
-                      <td className="center">
-                        <i
-                          className="fa fa-check-circle active"
-                          aria-hidden="true"
-                        />
-                      </td>
-                      <td className="right actions">
-                        <a href="" className="edit">
-                          editar
-                        </a>
-                        <a href="" className="delete">
-                          apagar
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Meu nome</td>
-                      <td>email@email.com</td>
-                      <td className="center">20</td>
-                      <td className="center">
-                        <i
-                          className="fa fa-check-circle active"
-                          aria-hidden="true"
-                        />
-                      </td>
-                      <td className="right actions">
-                        <a href="" className="edit">
-                          editar
-                        </a>
-                        <a href="" className="delete">
-                          apagar
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Meu nome</td>
-                      <td>email@email.com</td>
-                      <td className="center">20</td>
-                      <td className="center">
-                        <i
-                          className="fa fa-check-circle active"
-                          aria-hidden="true"
-                        />
-                      </td>
-                      <td className="right actions">
-                        <a href="" className="edit">
-                          editar
-                        </a>
-                        <a href="" className="delete">
-                          apagar
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Meu nome</td>
-                      <td>email@email.com</td>
-                      <td className="center">20</td>
-                      <td className="center">
-                        <i className="fa fa-check-circle" aria-hidden="true" />
-                      </td>
-                      <td className="right actions">
-                        <a href="" className="edit">
-                          editar
-                        </a>
-                        <a href="" className="delete">
-                          apagar
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
+            <div className="col-right">
+              <div className="area-button">
+                <a href="#" className="btn btn--normal btn--primary btn-link">
+                  <i className="fa fa-plus" aria-hidden="true" />
+                  Cadastrar
+                </a>
               </div>
+              <FormWrapper>
+                <Form schema={schemaSearch}>
+                  <div className="input-control input-search">
+                    <Input
+                      className="input input--search"
+                      id="search"
+                      name="search"
+                      type="search"
+                      placeholder="Buscar aluno"
+                    />
+                  </div>
+                </Form>
+              </FormWrapper>
             </div>
           </div>
-        </Dashboard>
+          <div className="list__content">
+            <div className="card">
+              <Table>
+                <thead>
+                  <tr>
+                    <th className="item-large">Nome</th>
+                    <th className="item-email">E-mail</th>
+                    <th className="center item-age">Idade</th>
+                    <th className="center item-actived">Ativa</th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Meu nome</td>
+                    <td>email@email.com</td>
+                    <td className="center">20</td>
+                    <td className="center">
+                      <i
+                        className="fa fa-check-circle active"
+                        aria-hidden="true"
+                      />
+                    </td>
+                    <td className="right actions">
+                      <a href="" className="edit">
+                        editar
+                      </a>
+                      <a href="" className="delete">
+                        apagar
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Meu nome</td>
+                    <td>email@email.com</td>
+                    <td className="center">20</td>
+                    <td className="center">
+                      <i
+                        className="fa fa-check-circle active"
+                        aria-hidden="true"
+                      />
+                    </td>
+                    <td className="right actions">
+                      <a href="" className="edit">
+                        editar
+                      </a>
+                      <a href="" className="delete">
+                        apagar
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Meu nome</td>
+                    <td>email@email.com</td>
+                    <td className="center">20</td>
+                    <td className="center">
+                      <i
+                        className="fa fa-check-circle active"
+                        aria-hidden="true"
+                      />
+                    </td>
+                    <td className="right actions">
+                      <a href="" className="edit">
+                        editar
+                      </a>
+                      <a href="" className="delete">
+                        apagar
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Meu nome</td>
+                    <td>email@email.com</td>
+                    <td className="center">20</td>
+                    <td className="center">
+                      <i
+                        className="fa fa-check-circle active"
+                        aria-hidden="true"
+                      />
+                    </td>
+                    <td className="right actions">
+                      <a href="" className="edit">
+                        editar
+                      </a>
+                      <a href="" className="delete">
+                        apagar
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Meu nome</td>
+                    <td>email@email.com</td>
+                    <td className="center">20</td>
+                    <td className="center">
+                      <i className="fa fa-check-circle" aria-hidden="true" />
+                    </td>
+                    <td className="right actions">
+                      <a href="" className="edit">
+                        editar
+                      </a>
+                      <a href="" className="delete">
+                        apagar
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </div>
+          </div>
+        </div>
 
         <Modal
           onCloseModal={this.handleCloseModal}

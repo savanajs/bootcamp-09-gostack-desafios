@@ -18,7 +18,7 @@ class App {
     this.server.use(
       cors({
         origin:
-          process.env.NODE_ENV !== 'development' ? process.env.FRONT_URL : '',
+          process.env.NODE_ENV !== 'development' ? process.env.FRONT_URL : '*',
       })
     ); // cors({origin: 'http://...'})
 
