@@ -16,6 +16,16 @@ class PlanController {
     return res.json(plans);
   }
 
+  async show(req, res) {
+    const plan = await Plan.findByPk(req.params.id);
+
+    if (!plan) {
+      return res.status(400).json({ error: 'Plan already exists.' });
+    }
+
+    return res.json(plan);
+  }
+
   async store(req, res) {
     const plans = await Plan.create(req.body);
 
@@ -49,7 +59,9 @@ class PlanController {
 
     await Cache.invalidatePrefix(`plan:default:plans:1`);
 
-    return res.json({ deleted: true });
+    const plans = await Plan.findAll();
+
+    return res.json(plans);
   }
 }
 

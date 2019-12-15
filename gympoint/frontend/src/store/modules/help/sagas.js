@@ -80,6 +80,8 @@ export function* deleteStudent({ payload }) {
     toast.success('Estudante excluido com sucesso!');
 
     yield put(selectStudentsSuccess(response.data));
+
+    history.push('/students');
   } catch (err) {
     toast.error(err.response.data.error);
     yield put(studentFailure());

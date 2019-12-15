@@ -14,7 +14,6 @@ const Container = styled.div`
       display: flex;
       .area-button {
         display: flex;
-        margin-right: 15px;
       }
       .area-buttons {
         display: flex;
@@ -23,6 +22,7 @@ const Container = styled.div`
         }
       }
       form {
+        margin-left: 15px;
         .input {
           width: 237px;
         }

@@ -59,6 +59,7 @@ routes.patch('/help-orders/:id/answer', AnswerStudentController.update);
  * Plans Route
  */
 routes.get('/plans', PlanController.index);
+routes.get('/plan/:id', PlanController.show);
 routes.post('/plans', ValidatorsPlanStore, PlanController.store);
 routes.put('/plans/:id', ValidatorsPlanStore, PlanController.update);
 routes.delete('/plans/:id', PlanController.destroy);

@@ -44,12 +44,12 @@ export default function Students() {
       <div className="shell">
         <div className="list__header">
           <div className="col-left">
-            <h1>Gerenciando alunos</h1>
+            <h1>Gerenciando matrículas</h1>
           </div>
           <div className="col-right">
             <div className="area-button">
               <Link
-                to="/students/new"
+                to="/register-student"
                 className="btn btn--normal btn--primary btn-link"
               >
                 <i className="fa fa-plus" aria-hidden="true" />
@@ -93,7 +93,7 @@ export default function Students() {
                       <td>{item.email}</td>
                       <td className="center">{item.age}</td>
                       <td className="right actions">
-                        <Link to={`/students/edit/${item.id}`} className="edit">
+                        <Link to={`/edit-student/${item.id}`} className="edit">
                           editar
                         </Link>
                         <a
@@ -109,13 +109,7 @@ export default function Students() {
                 </tbody>
               </Table>
             ) : (
-              <>
-                {!loading ? (
-                  <div className="message warn">Carregando....</div>
-                ) : (
-                  <div className="message warn">Resultados não encontrados</div>
-                )}
-              </>
+              <div className="message warn">Resultados não encontrados</div>
             )}
           </div>
         </div>
