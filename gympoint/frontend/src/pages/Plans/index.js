@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+// eslint-disable-next-line import/extensions
 import { Table } from '../../styles/table.js';
 
 import {
@@ -34,6 +35,7 @@ export default function Plans() {
   function handleDelete(e, { id }) {
     e.preventDefault();
 
+    // eslint-disable-next-line no-alert
     const confirm = window.confirm('Gostaria realmente de remover esse item?');
 
     if (confirm) {
@@ -87,7 +89,7 @@ export default function Plans() {
                           editar
                         </Link>
                         <a
-                          href="#"
+                          href="/"
                           onClick={e => handleDelete(e, item)}
                           className="delete"
                         >

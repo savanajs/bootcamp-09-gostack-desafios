@@ -4,10 +4,10 @@ import { toast } from 'react-toastify';
 import api from '../../../services/api';
 
 import {
-  updateStudentSuccess,
-  createStudentSuccess,
-  studentFailure,
-  selectStudentsSuccess,
+  updateEnrollmentSuccess,
+  createEnrollmentSuccess,
+  enrollmentFailure,
+  selectEnrollmentsSuccess,
 } from './actions';
 
 import history from '../../../services/history';
@@ -15,12 +15,11 @@ import history from '../../../services/history';
 function requestData(payload) {
   return {
     ...payload,
-    height: String(parseFloat(payload.height).toFixed(2)),
-    weight: String(parseFloat(payload.weight).toFixed(1)),
+    start_date: new Date(`${payload.start_date} ` + `00:00:00`),
   };
 }
 
-export function* updateStudent({ payload }) {
+export function* updateEnrollment({ payload }) {
   const { id } = payload;
 
   delete payload.id;
@@ -28,69 +27,69 @@ export function* updateStudent({ payload }) {
   try {
     const response = yield call(
       api.put,
-      `students/${id}`,
+      `enrollments/${id}`,
       requestData(payload)
     );
 
     toast.success('Estudante atualizado com sucesso!');
 
-    yield put(updateStudentSuccess(response.data));
+    yield put(updateEnrollmentSuccess(response.data));
 
-    history.push('/students');
+    history.push('/enrollments');
   } catch (err) {
     toast.error(err.response.data.error);
-    yield put(studentFailure());
+    yield put(enrollmentFailure());
   }
 }
 
-export function* createStudent({ payload }) {
+export function* createEnrollment({ payload }) {
   try {
-    const response = yield call(api.post, 'students', requestData(payload));
+    const response = yield call(api.post, 'enrollments', requestData(payload));
 
     toast.success('Estudante criado com sucesso!');
 
-    yield put(createStudentSuccess(response.data));
+    yield put(createEnrollmentSuccess(response.data));
 
-    history.push('/students');
+    history.push('/enrollments');
   } catch (err) {
     toast.error(err.response.data.error);
-    yield put(studentFailure());
+    yield put(enrollmentFailure());
   }
 }
 
-export function* selectStudents({ payload }) {
+export function* selectEnrollments() {
   try {
-    const response = yield call(api.get, `students${payload.query}`);
+    const response = yield call(api.get, `enrollments`);
 
-    yield put(selectStudentsSuccess(response.data));
+    yield put(selectEnrollmentsSuccess(response.data));
   } catch (err) {
     toast.error(err.response.data.error);
-    yield put(studentFailure());
+    yield put(enrollmentFailure());
   }
 }
 
-export function* deleteStudent({ payload }) {
+export function* deleteEnrollment({ payload }) {
   const { id } = payload;
 
   delete payload.id;
 
   try {
-    const response = yield call(api.delete, `students/${id}`);
+    const response = yield call(api.delete, `enrollments/${id}`);
 
     toast.success('Estudante excluido com sucesso!');
 
-    yield put(selectStudentsSuccess(response.data));
+    yield put(selectEnrollmentsSuccess(response.data));
 
-    history.push('/students');
+    history.push('/enrollments');
   } catch (err) {
     toast.error(err.response.data.error);
-    yield put(studentFailure());
+    yield put(enrollmentFailure());
   }
 }
 
 export default all([
-  takeLatest('@student/UPDATE_STUDENT_REQUEST', updateStudent),
-  takeLatest('@student/CREATE_STUDENT_REQUEST', createStudent),
-  takeLatest('@student/DELETE_STUDENT_REQUEST', deleteStudent),
-  takeLatest('@student/SELECT_STUDENTS_REQUEST', selectStudents),
+  takeLatest('@enrollment/UPDATE_ENROLLMENT_REQUEST', updateEnrollment),
+  takeLatest('@enrollment/CREATE_ENROLLMENT_REQUEST', createEnrollment),
+  takeLatest('@enrollment/DELETE_ENROLLMENT_REQUEST', deleteEnrollment),
+  takeLatest('@enrollment/SELECT_ENROLLMENTS_REQUEST', selectEnrollments),
 ]);

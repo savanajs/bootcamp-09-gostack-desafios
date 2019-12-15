@@ -21,7 +21,15 @@ class EnrollmentController {
     }
 
     const Enrollments = await Enrollment.findAll({
-      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
+      attributes: [
+        'id',
+        'student_id',
+        'plan_id',
+        'start_date',
+        'end_date',
+        'price',
+        'active',
+      ],
       include: [
         {
           model: Student,
@@ -37,6 +45,38 @@ class EnrollmentController {
     });
 
     return res.json(Enrollments);
+  }
+
+  async show(req, res) {
+    const enrollment = await Enrollment.findByPk(req.params.id, {
+      attributes: [
+        'id',
+        'student_id',
+        'plan_id',
+        'start_date',
+        'end_date',
+        'price',
+        'active',
+      ],
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['title', 'duration', 'price'],
+        },
+      ],
+    });
+
+    if (!enrollment) {
+      return res.status(400).json({ error: 'Enrollment already exists.' });
+    }
+
+    return res.json(enrollment);
   }
 
   async store(req, res) {
@@ -103,7 +143,23 @@ class EnrollmentController {
 
     await Cache.invalidatePrefix(`enrollment:default:enrollments:1`);
 
-    return res.json({ deleted: true });
+    const Enrollments = await Enrollment.findAll({
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name', 'email'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['title', 'duration', 'price'],
+        },
+      ],
+    });
+
+    return res.json(Enrollments);
   }
 }
 

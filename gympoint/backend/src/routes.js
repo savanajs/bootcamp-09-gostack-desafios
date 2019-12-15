@@ -68,6 +68,7 @@ routes.delete('/plans/:id', PlanController.destroy);
  * Enrollment Route
  */
 routes.get('/enrollments', EnrollmentController.index);
+routes.get('/enrollment/:id', EnrollmentController.show);
 routes.post(
   '/enrollments',
   ValidatorsEnrollmentStore,

@@ -71,6 +71,9 @@ const Container = styled.div`
     .item-large {
       width: 38%;
     }
+    .item-merdium {
+      width: 25%;
+    }
     .actions {
       a {
         text-decoration: none;

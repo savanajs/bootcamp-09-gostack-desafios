@@ -1,42 +1,42 @@
 import produce from 'immer';
 
 const INITIAL_STATE = {
-  student: null,
-  students: [],
+  enrollment: null,
+  enrollments: [],
   loading: false,
 };
 
-export default function student(state = INITIAL_STATE, action) {
+export default function enrollment(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
-      case '@student/DELETE_STUDENT_REQUEST': {
+      case '@enrollment/DELETE_ENROLLMENT_REQUEST': {
         draft.loading = true;
         break;
       }
-      case '@student/UPDATE_STUDENT_REQUEST': {
+      case '@enrollment/UPDATE_ENROLLMENT_REQUEST': {
         draft.loading = true;
         break;
       }
-      case '@student/UPDATE_STUDENT_SUCCESS': {
-        draft.student = action.payload.student;
+      case '@enrollment/UPDATE_ENROLLMENT_SUCCESS': {
+        draft.enrollment = action.payload.enrollment;
         draft.loading = false;
         break;
       }
-      case '@student/CREATE_STUDENT_REQUEST': {
+      case '@enrollment/CREATE_ENROLLMENT_REQUEST': {
         draft.loading = false;
         break;
       }
-      case '@student/CREATE_STUDENT_SUCCESS': {
-        draft.student = action.payload.student;
+      case '@enrollment/CREATE_ENROLLMENT_SUCCESS': {
+        draft.enrollment = action.payload.enrollment;
         draft.loading = false;
         break;
       }
-      case '@student/SELECT_STUDENTS_SUCCESS': {
-        draft.students = action.payload.students;
+      case '@enrollment/SELECT_ENROLLMENTS_SUCCESS': {
+        draft.enrollments = action.payload.enrollments;
         draft.loading = false;
         break;
       }
-      case '@student/STUDENT_FAILURE': {
+      case '@enrollment/ENROLLMENT_FAILURE': {
         draft.loading = false;
         break;
       }

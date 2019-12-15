@@ -1,60 +1,59 @@
-export function selectStudentsRequest(query) {
+export function selectEnrollmentsRequest() {
   return {
-    type: '@student/SELECT_STUDENTS_REQUEST',
-    payload: { query },
+    type: '@enrollment/SELECT_ENROLLMENTS_REQUEST',
   };
 }
 
-export function deleteStudentRequest(id) {
+export function deleteEnrollmentRequest(id) {
   return {
-    type: '@student/DELETE_STUDENT_REQUEST',
+    type: '@enrollment/DELETE_ENROLLMENT_REQUEST',
     payload: { id },
   };
 }
 
-export function updateStudentRequest(id, name, email, age, weight, height) {
+export function updateEnrollmentRequest(id, student_id, plan_id, start_date) {
   return {
-    type: '@student/UPDATE_STUDENT_REQUEST',
-    payload: { id, name, email, age, weight, height },
+    type: '@enrollment/UPDATE_ENROLLMENT_REQUEST',
+    payload: { id, student_id, plan_id, start_date },
   };
 }
 
-export function createStudentRequest(name, email, age, weight, height) {
+export function createEnrollmentRequest(student_id, plan_id, start_date) {
   return {
-    type: '@student/CREATE_STUDENT_REQUEST',
-    payload: { name, email, age, weight, height },
+    type: '@enrollment/CREATE_ENROLLMENT_REQUEST',
+    payload: { student_id, plan_id, start_date },
   };
 }
 
-export function selectStudentsSuccess(students) {
+export function selectEnrollmentsSuccess(enrollments) {
   return {
-    type: '@student/SELECT_STUDENTS_SUCCESS',
-    payload: { students },
+    type: '@enrollment/SELECT_ENROLLMENTS_SUCCESS',
+    payload: { enrollments },
   };
 }
 
-export function updateStudentSuccess(student) {
+export function updateEnrollmentSuccess(enrollment) {
   return {
-    type: '@student/UPDATE_STUDENT_SUCCESS',
-    payload: { student },
+    type: '@enrollment/UPDATE_ENROLLMENT_SUCCESS',
+    payload: { enrollment },
   };
 }
 
-export function createStudentSuccess(student) {
+export function createEnrollmentSuccess(enrollment) {
   return {
-    type: '@student/CREATE_STUDENT_SUCCESS',
-    payload: { student },
+    type: '@enrollment/CREATE_ENROLLMENT_SUCCESS',
+    payload: { enrollment },
   };
 }
 
-export function updateStudentFailure() {
+export function updateEnrollmentFailure() {
   return {
-    type: '@student/UPDATE_STUDENT_REQUEST',
+    type: '@enrollment/UPDATE_ENROLLMENT_REQUEST',
   };
 }
 
-export function studentFailure() {
+export function enrollmentFailure() {
   return {
-    type: '@student/STUDENT_FAILURE',
+    type: '@enrollment/ENROLLMENT_FAILURE',
   };
 }

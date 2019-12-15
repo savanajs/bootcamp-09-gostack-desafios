@@ -2,67 +2,139 @@ import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form, Input } from '@rocketseat/unform';
-import InputMask from 'react-input-mask';
+import { Form, Input, Select } from '@rocketseat/unform';
+import CurrencyInput from 'react-currency-input';
+import { addMonths } from 'date-fns';
 
 import api from '../../services/api';
 import history from '../../services/history';
 
+import { formatPrice } from '../../util/format';
+
 import {
-  createStudentRequest,
-  updateStudentRequest,
-} from '../../store/modules/student/actions';
+  createEnrollmentRequest,
+  updateEnrollmentRequest,
+} from '../../store/modules/enrollment/actions';
+
+import { selectStudentsRequest } from '../../store/modules/student/actions';
+import { selectPlansRequest } from '../../store/modules/plan/actions';
 
 import { FormWrapper } from '../../styles/form.js';
 
 const schema = Yup.object().shape({
-  name: Yup.string().required('O nome é obrigatório'),
-  email: Yup.string()
-    .email('Insira um e-mail válido')
-    .required('O e-mail é obrigatório'),
-  age: Yup.string().required('A idade é obrigatória'),
-  weight: Yup.string().required('O peso é obrigatório'),
-  height: Yup.string().required('A altura é obrigatória'),
+  student_id: Yup.string().required('A escolha de estudante é obrigatória'),
+  plan_id: Yup.string().required('A escolha de plano é obrigatória'),
+  start_date: Yup.string().required('A escolha de data é obrigatória'),
 });
 
-export default function SaveStudent({ match }) {
+export default function SaveEnrollment({ match }) {
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.student.loading);
-  const [student, setStudent] = useState([]);
+
+  const loading = useSelector(state => state.enrollment.loading);
+
+  const students = useSelector(state => {
+    return state.student.students.map(item => {
+      return {
+        ...item,
+        title: item.name,
+      };
+    });
+  });
+
+  const plans = useSelector(state => {
+    return state.plan.plans.map(plan => {
+      return {
+        ...plan,
+        title: `Plano ${plan.title} durante ${
+          plan.duration > 1 ? `${plan.duration} meses` : `${plan.duration} mês`
+        } por ${formatPrice(plan.price)} mês`,
+      };
+    });
+  });
+
+  const [enrollment, setEnrollment] = useState({});
   const { id } = match.params;
 
   useEffect(() => {
-    async function loadStudent() {
+    async function loadEnrollment() {
       try {
-        const response = await api.get(`/student/${id}`);
-        setStudent(response.data);
+        const response = await api.get(`/enrollment/${id}`);
+        response.data.start_date = new Date(response.data.start_date)
+          .toISOString()
+          .slice(0, 10);
+
+        response.data.end_date = new Date(response.data.end_date)
+          .toISOString()
+          .slice(0, 10);
+
+        setEnrollment(response.data);
       } catch (err) {
-        history.push('/students');
+        history.push('/enrollments');
       }
     }
 
-    loadStudent();
+    if (id) loadEnrollment();
   }, []);
 
-  function handleSubmit({ name, email, age, weight, height }) {
+  useEffect(() => {
+    async function loadStudents() {
+      await dispatch(selectStudentsRequest(''));
+    }
+
+    loadStudents();
+  }, []);
+
+  useEffect(() => {
+    async function loadPlans() {
+      await dispatch(selectPlansRequest());
+    }
+
+    loadPlans();
+  }, []);
+
+  function handleSubmit({ student_id, plan_id, start_date }) {
     if (!id) {
-      dispatch(createStudentRequest(name, email, age, weight, height));
+      dispatch(createEnrollmentRequest(student_id, plan_id, start_date));
     } else {
-      dispatch(updateStudentRequest(id, name, email, age, weight, height));
+      dispatch(updateEnrollmentRequest(id, student_id, plan_id, start_date));
     }
   }
 
-  function handleHeight(e) {
-    setStudent({
-      ...student,
-      height: e.target.value,
+  function filterPlan(planId) {
+    return plans.filter(item => Math.floor(item.id) === Math.floor(planId));
+  }
+
+  function getEndDate(date, months) {
+    return new Date(addMonths(date, months)).toISOString().slice(0, 10);
+  }
+
+  function handlePlan(e) {
+    const plan = filterPlan(e.target.value)[0];
+
+    setEnrollment({
+      ...enrollment,
+      plan_id: e.target.value,
+      price: plan.total,
+      end_date: enrollment.start_date
+        ? getEndDate(new Date(enrollment.start_date), plan.duration)
+        : '',
     });
   }
 
-  function handleWeight(e) {
-    setStudent({
-      ...student,
-      weight: e.target.value,
+  function handleStudent(e) {
+    setEnrollment({
+      ...enrollment,
+      student_id: e.target.value,
+    });
+  }
+
+  function handleStartDate(e) {
+    const plan = filterPlan(enrollment.plan_id)[0];
+
+    setEnrollment({
+      ...enrollment,
+      start_date: e.target.value,
+      end_date: getEndDate(new Date(e.target.value), plan.duration),
     });
   }
 
@@ -70,12 +142,12 @@ export default function SaveStudent({ match }) {
     <div className="shell shell--small">
       <div className="list__header">
         <div className="col-left">
-          <h1>{id ? 'Editar o aluno' : 'Cadastro de aluno'}</h1>
+          <h1>{id ? 'Editar matrícula' : 'Cadastro de matrícula'}</h1>
         </div>
         <div className="col-right">
           <div className="area-buttons">
             <Link
-              to="/students"
+              to="/enrollments"
               className="btn btn--normal btn--disable btn-link"
             >
               <i className="fa fa-angle-left" aria-hidden="true" /> Voltar
@@ -108,79 +180,77 @@ export default function SaveStudent({ match }) {
             <Form
               schema={schema}
               onSubmit={handleSubmit}
-              initialData={student}
+              initialData={enrollment}
               id="form-create"
               autoComplete="off"
             >
               <div className="input-control">
-                <label htmlFor="name" className="label">
-                  Nome completo *
+                <label htmlFor="student_id" className="label">
+                  Aluno *
                 </label>
-                <Input
+                <Select
+                  options={students}
                   className="input input--large"
-                  id="name"
-                  name="name"
+                  id="student_id"
+                  name="student_id"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="Escolha um aluno"
+                  value={enrollment.student_id}
+                  onChange={handleStudent}
                 />
               </div>
               <div className="input-control">
-                <label htmlFor="email" className="label">
-                  Endereço de E-mail *
+                <label htmlFor="plan_id" className="label">
+                  Plano *
                 </label>
-                <Input
+                <Select
+                  options={plans}
                   className="input input--large"
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="exemplo@email.com"
+                  id="plan_id"
+                  name="plan_id"
+                  placeholder="Escolha um plano"
+                  value={enrollment.plan_id}
+                  onChange={handlePlan}
                 />
               </div>
               <div className="input-group">
                 <div className="input-control">
-                  <label htmlFor="age" className="label">
-                    Idade *
+                  <label htmlFor="start_date" className="label">
+                    Data de inicio *
                   </label>
                   <Input
                     className="input input--large"
-                    id="age"
-                    name="age"
-                    type="number"
+                    id="start_date"
+                    name="start_date"
+                    type="date"
+                    onBlur={handleStartDate}
                   />
                 </div>
                 <div className="input-control">
-                  <label htmlFor="weight" className="label">
-                    Peso <span>(em kg)</span> *
+                  <label htmlFor="end_date" className="label">
+                    Data de termino *
                   </label>
-                  <InputMask
-                    mask="99.9kg"
-                    value={student.weight || ''}
-                    onChange={handleWeight}
-                  >
-                    <Input
-                      className="input input--large"
-                      id="weight"
-                      name="weight"
-                      type="text"
-                    />
-                  </InputMask>
+                  <Input
+                    className="input input--large"
+                    id="end_date"
+                    name="end_date"
+                    type="date"
+                    disabled
+                  />
                 </div>
                 <div className="input-control">
-                  <label htmlFor="height" className="label">
-                    Altura *
+                  <label htmlFor="price" className="label">
+                    Valor final
                   </label>
-                  <InputMask
-                    mask="9.99m"
-                    value={student.height || ''}
-                    onChange={handleHeight}
-                  >
-                    <Input
-                      className="input input--large"
-                      id="height"
-                      name="height"
-                      type="text"
-                    />
-                  </InputMask>
+                  <CurrencyInput
+                    prefix="R$"
+                    className="input input--large"
+                    id="price"
+                    name="price"
+                    type="text"
+                    value={enrollment.price}
+                    disabled
+                  />
                 </div>
               </div>
             </Form>

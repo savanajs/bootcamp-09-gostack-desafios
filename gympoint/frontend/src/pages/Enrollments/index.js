@@ -1,33 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input } from '@rocketseat/unform';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
-import { FormWrapper } from '../../styles/form.js';
 import { Table } from '../../styles/table.js';
 
 import {
-  deleteStudentRequest,
-  selectStudentsRequest,
-} from '../../store/modules/student/actions';
+  deleteEnrollmentRequest,
+  selectEnrollmentsRequest,
+} from '../../store/modules/enrollment/actions';
 
-export default function Students() {
+export default function Enrollments() {
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.student.loading);
-  const students = useSelector(state => state.student.students);
-  const [search, setSearch] = useState('');
+  const loading = useSelector(state => state.enrollment.loading);
+  const enrollments = useSelector(state => {
+    return state.enrollment.enrollments.map(item => {
+      return {
+        ...item,
+        start_date: format(new Date(item.start_date), "d 'de' MMMM 'de' yyyy", {
+          locale: pt,
+        }),
+        end_date: format(new Date(item.end_date), "d 'de' MMMM 'de' yyyy", {
+          locale: pt,
+        }),
+      };
+    });
+  });
 
   useEffect(() => {
-    async function loadStudents() {
-      if (search && search.length < 3) return;
-
-      const query = search ? `?q=${search}` : '';
-
-      dispatch(selectStudentsRequest(query));
+    async function loadEnrollments() {
+      dispatch(selectEnrollmentsRequest());
     }
 
-    loadStudents();
-  }, [search]);
+    loadEnrollments();
+  }, []);
 
   function handleDelete(e, { id }) {
     e.preventDefault();
@@ -35,7 +42,7 @@ export default function Students() {
     const confirm = window.confirm('Gostaria realmente de remover esse item?');
 
     if (confirm) {
-      dispatch(deleteStudentRequest(id));
+      dispatch(deleteEnrollmentRequest(id));
     }
   }
 
@@ -49,51 +56,54 @@ export default function Students() {
           <div className="col-right">
             <div className="area-button">
               <Link
-                to="/register-student"
+                to="/enrollments/new"
                 className="btn btn--normal btn--primary btn-link"
               >
                 <i className="fa fa-plus" aria-hidden="true" />
                 Cadastrar
               </Link>
             </div>
-            <FormWrapper>
-              <Form>
-                <div className="input-control input-search">
-                  <Input
-                    className="input input--search"
-                    id="search"
-                    name="search"
-                    type="search"
-                    placeholder="Buscar aluno"
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    required
-                  />
-                </div>
-              </Form>
-            </FormWrapper>
           </div>
         </div>
         <div className="list__content">
           <div className="card">
-            {students && students.length ? (
+            {enrollments && enrollments.length ? (
               <Table>
                 <thead>
                   <tr>
-                    <th className="item-large">Nome</th>
-                    <th className="item-email">E-mail</th>
-                    <th className="center item-age">Idade</th>
+                    <th className="item-medium">Aluno</th>
+                    <th className="center">Plano</th>
+                    <th className="center">Inicio</th>
+                    <th className="center">Término</th>
+                    <th className="center">Ativa</th>
                     <th />
                   </tr>
                 </thead>
                 <tbody>
-                  {students.map(item => (
+                  {enrollments.map(item => (
                     <tr key={item.id}>
-                      <td>{item.name}</td>
-                      <td>{item.email}</td>
-                      <td className="center">{item.age}</td>
+                      <td>{item.student.name}</td>
+                      <td className="center">{item.plan.title}</td>
+                      <td className="center">{item.start_date}</td>
+                      <td className="center">{item.end_date}</td>
+                      <td className="center">
+                        {item.active ? (
+                          <i
+                            className="fa fa-check-circle active"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <i
+                            className="fa fa-check-circle"
+                            aria-hidden="true"
+                          />
+                        )}
+                      </td>
                       <td className="right actions">
-                        <Link to={`/edit-student/${item.id}`} className="edit">
+                        <Link
+                          to={`/enrollments/edit/${item.id}`}
+                          className="edit"
+                        >
                           editar
                         </Link>
                         <a
