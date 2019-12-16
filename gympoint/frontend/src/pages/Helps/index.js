@@ -1,42 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input } from '@rocketseat/unform';
-import { Link } from 'react-router-dom';
+import { Form, Textarea } from '@rocketseat/unform';
 import { useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
 
+import Modal from '../../components/Modal';
 import { FormWrapper } from '../../styles/form.js';
 import { Table } from '../../styles/table.js';
 
 import {
-  deleteStudentRequest,
-  selectStudentsRequest,
-} from '../../store/modules/student/actions';
+  selectHelpsRequest,
+  updateAnwserByStudentRequest,
+} from '../../store/modules/help/actions';
 
-export default function Students() {
+const schema = Yup.object().shape({
+  answer: Yup.string().required('A resposta é obrigatória'),
+});
+
+export default function Helps() {
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.student.loading);
-  const students = useSelector(state => state.student.students);
+  const loading = useSelector(state => state.help.loading);
+  const helps = useSelector(state => state.help.helps);
   const [search, setSearch] = useState('');
+  const [isOpenModal, setModalOpen] = useState(false);
+  const [help, setHelp] = useState({});
 
   useEffect(() => {
-    async function loadStudents() {
+    async function loadHelps() {
       if (search && search.length < 3) return;
 
       const query = search ? `?q=${search}` : '';
 
-      dispatch(selectStudentsRequest(query));
+      dispatch(selectHelpsRequest(query));
     }
 
-    loadStudents();
+    loadHelps();
   }, [search]);
 
-  function handleDelete(e, { id }) {
+  useEffect(() => {
+    if (help.question) setModalOpen(true);
+  }, [help]);
+
+  function handleOpenModal(e, help) {
     e.preventDefault();
 
-    const confirm = window.confirm('Gostaria realmente de remover esse item?');
+    console.log(help);
 
-    if (confirm) {
-      dispatch(deleteStudentRequest(id));
-    }
+    setHelp(help);
+  }
+
+  function handleCloseModal() {
+    setModalOpen(false);
+  }
+
+  function handleSubmit({ answer }) {
+    dispatch(updateAnwserByStudentRequest(help.id, answer));
   }
 
   return (
@@ -46,62 +63,28 @@ export default function Students() {
           <div className="col-left">
             <h1>Pedido de auxilio</h1>
           </div>
-          <div className="col-right">
-            <div className="area-button">
-              <Link
-                to="/register-student"
-                className="btn btn--normal btn--primary btn-link"
-              >
-                <i className="fa fa-plus" aria-hidden="true" />
-                Cadastrar
-              </Link>
-            </div>
-            <FormWrapper>
-              <Form>
-                <div className="input-control input-search">
-                  <Input
-                    className="input input--search"
-                    id="search"
-                    name="search"
-                    type="search"
-                    placeholder="Buscar aluno"
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    required
-                  />
-                </div>
-              </Form>
-            </FormWrapper>
-          </div>
         </div>
         <div className="list__content">
           <div className="card">
-            {students && students.length ? (
+            {helps && helps.length ? (
               <Table>
                 <thead>
                   <tr>
-                    <th className="item-large">Nome</th>
-                    <th className="item-email">E-mail</th>
-                    <th className="center item-age">Idade</th>
+                    <th className="item-large">Alunos</th>
                     <th />
                   </tr>
                 </thead>
                 <tbody>
-                  {students.map(item => (
+                  {helps.map(item => (
                     <tr key={item.id}>
-                      <td>{item.name}</td>
-                      <td>{item.email}</td>
-                      <td className="center">{item.age}</td>
+                      <td>{item.student.name}</td>
                       <td className="right actions">
-                        <Link to={`/edit-student/${item.id}`} className="edit">
-                          editar
-                        </Link>
                         <a
-                          href="#"
-                          onClick={e => handleDelete(e, item)}
-                          className="delete"
+                          href="/"
+                          onClick={e => handleOpenModal(e, item)}
+                          className="edit"
                         >
-                          {loading ? 'aguarde...' : 'apagar'}
+                          responder
                         </a>
                       </td>
                     </tr>
@@ -114,6 +97,39 @@ export default function Students() {
           </div>
         </div>
       </div>
+
+      {help.question ? (
+        <Modal onCloseModal={handleCloseModal} isOpen={isOpenModal}>
+          <div className="area-modal">
+            <FormWrapper>
+              <div className="anwser">
+                <h2>Pergunta do aluno {help.student.name}</h2>
+                <p>{help.question}</p>
+              </div>
+              <Form initialData={help} schema={schema} onSubmit={handleSubmit}>
+                <div className="input-control">
+                  <label htmlFor="message" className="label">
+                    Sua resposta
+                  </label>
+                  <Textarea
+                    className="input input--large textarea"
+                    id="answer"
+                    name="answer"
+                    placeholder="Digite sua resposta"
+                  />
+                </div>
+                <div className="input-control">
+                  <button className="btn btn--large btn--center btn--primary">
+                    {loading ? '...aguarde' : 'Responder aluno'}
+                  </button>
+                </div>
+              </Form>
+            </FormWrapper>
+          </div>
+        </Modal>
+      ) : (
+        ''
+      )}
     </>
   );
 }

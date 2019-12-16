@@ -45,13 +45,16 @@ routes.post('/students/:student_id/checkins', CheckinStudentController.store);
 /*
  * Help Order Route
  */
+routes.get('/help-orders', HelpOrderStudentController.index);
+
 routes.get(
   '/students/:student_id/help-orders',
-  HelpOrderStudentController.index
+  HelpOrderStudentController.getByStudent
 );
+
 routes.post(
   '/students/:student_id/help-orders',
-  HelpOrderStudentController.store
+  HelpOrderStudentController.createByStudent
 );
 routes.patch('/help-orders/:id/answer', AnswerStudentController.update);
 

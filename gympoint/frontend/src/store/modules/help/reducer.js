@@ -1,42 +1,38 @@
 import produce from 'immer';
 
 const INITIAL_STATE = {
-  student: null,
-  students: [],
+  help: null,
+  helps: [],
   loading: false,
 };
 
-export default function student(state = INITIAL_STATE, action) {
+export default function help(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
-      case '@student/DELETE_STUDENT_REQUEST': {
+      case '@help/UPDATE_HELP_REQUEST': {
         draft.loading = true;
         break;
       }
-      case '@student/UPDATE_STUDENT_REQUEST': {
-        draft.loading = true;
-        break;
-      }
-      case '@student/UPDATE_STUDENT_SUCCESS': {
-        draft.student = action.payload.student;
+      case '@help/UPDATE_HELP_SUCCESS': {
+        draft.help = action.payload.help;
         draft.loading = false;
         break;
       }
-      case '@student/CREATE_STUDENT_REQUEST': {
+      case '@help/CREATE_HELP_REQUEST': {
         draft.loading = false;
         break;
       }
-      case '@student/CREATE_STUDENT_SUCCESS': {
-        draft.student = action.payload.student;
+      case '@help/CREATE_HELP_SUCCESS': {
+        draft.help = action.payload.help;
         draft.loading = false;
         break;
       }
-      case '@student/SELECT_STUDENTS_SUCCESS': {
-        draft.students = action.payload.students;
+      case '@help/SELECT_HELPS_SUCCESS': {
+        draft.helps = action.payload.helps;
         draft.loading = false;
         break;
       }
-      case '@student/STUDENT_FAILURE': {
+      case '@help/HELP_FAILURE': {
         draft.loading = false;
         break;
       }

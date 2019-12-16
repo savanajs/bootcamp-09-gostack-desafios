@@ -8,6 +8,7 @@ export default function Modal(props) {
     <>
       <ReactModal
         {...props}
+        ariaHideApp={false}
         parentSelector={() => document.querySelector('#modal')}
         contentLabel="Example Modal"
         style={{

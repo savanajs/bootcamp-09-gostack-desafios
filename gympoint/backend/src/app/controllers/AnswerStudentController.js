@@ -3,6 +3,7 @@ import HelpOrder from '../models/HelpOrder';
 
 import Queue from '../../lib/Queue';
 import SendMailAnswerStudent from '../jobs/SendMailAnswerStudent';
+import Cache from '../../lib/Cache';
 
 class AnwserStudentController {
   async update(req, res) {
@@ -18,14 +19,24 @@ class AnwserStudentController {
     const anwserUpdated = await anwserCurrent.update(req.body);
     const student = await Student.findByPk(anwserUpdated.student_id);
 
-    console.log('chegou ==========================');
-
     await Queue.add(SendMailAnswerStudent.key, {
       student,
       anwserUpdated,
     });
 
-    return res.json(anwserUpdated);
+    await Cache.invalidatePrefix(`student:index:helporders`);
+
+    const helps = await HelpOrder.findAll({
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
+
+    return res.json(helps);
   }
 }
 

@@ -8,10 +8,7 @@ import InputMask from 'react-input-mask';
 import api from '../../services/api';
 import history from '../../services/history';
 
-import {
-  createStudentRequest,
-  updateStudentRequest,
-} from '../../store/modules/student/actions';
+import { updateHelpRequest } from '../../store/modules/help/actions';
 
 import { FormWrapper } from '../../styles/form.js';
 
@@ -25,43 +22,37 @@ const schema = Yup.object().shape({
   height: Yup.string().required('A altura é obrigatória'),
 });
 
-export default function SaveStudent({ match }) {
+export default function SaveHelp({ match }) {
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.student.loading);
-  const [student, setStudent] = useState([]);
+  const loading = useSelector(state => state.help.loading);
+  const [help, setHelp] = useState([]);
   const { id } = match.params;
 
   useEffect(() => {
-    async function loadStudent() {
+    async function loadHelp() {
       try {
-        const response = await api.get(`/student/${id}`);
-        setStudent(response.data);
+        const response = await api.get(`/help/${id}`);
+        setHelp(response.data);
       } catch (err) {
-        history.push('/students');
+        history.push('/helps');
       }
     }
 
-    loadStudent();
+    loadHelp();
   }, []);
 
-  function handleSubmit({ name, email, age, weight, height }) {
-    if (!id) {
-      dispatch(createStudentRequest(name, email, age, weight, height));
-    } else {
-      dispatch(updateStudentRequest(id, name, email, age, weight, height));
-    }
-  }
+  function handleSubmit({ name, email, age, weight, height }) {}
 
   function handleHeight(e) {
-    setStudent({
-      ...student,
+    setHelp({
+      ...help,
       height: e.target.value,
     });
   }
 
   function handleWeight(e) {
-    setStudent({
-      ...student,
+    setHelp({
+      ...help,
       weight: e.target.value,
     });
   }
@@ -74,10 +65,7 @@ export default function SaveStudent({ match }) {
         </div>
         <div className="col-right">
           <div className="area-buttons">
-            <Link
-              to="/students"
-              className="btn btn--normal btn--disable btn-link"
-            >
+            <Link to="/helps" className="btn btn--normal btn--disable btn-link">
               <i className="fa fa-angle-left" aria-hidden="true" /> Voltar
             </Link>
             {id ? (
@@ -108,7 +96,7 @@ export default function SaveStudent({ match }) {
             <Form
               schema={schema}
               onSubmit={handleSubmit}
-              initialData={student}
+              initialData={help}
               id="form-create"
               autoComplete="off"
             >
@@ -154,7 +142,7 @@ export default function SaveStudent({ match }) {
                   </label>
                   <InputMask
                     mask="99.9kg"
-                    value={student.weight || ''}
+                    value={help.weight || ''}
                     onChange={handleWeight}
                   >
                     <Input
@@ -171,7 +159,7 @@ export default function SaveStudent({ match }) {
                   </label>
                   <InputMask
                     mask="9.99m"
-                    value={student.height || ''}
+                    value={help.height || ''}
                     onChange={handleHeight}
                   >
                     <Input

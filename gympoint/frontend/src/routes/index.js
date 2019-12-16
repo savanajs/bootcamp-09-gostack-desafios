@@ -36,8 +36,6 @@ export default function Routes() {
       />
 
       <Route path="/helps" exact component={Helps} isPrivate />
-      <Route path="/helps/new" component={SaveHelp} isPrivate />
-      <Route path="/helps/edit/:id" component={SaveHelp} isPrivate />
 
       <Route path="/" component={() => <h1>404</h1>} />
     </Switch>
