@@ -1,9 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Container } from './styles';
 
-export default function QuestionList() {
+import Logo from '../../components/Logo';
+
+export default function QuestionList({ navigation }) {
   return (
     <View>
         <Container>
@@ -12,3 +15,9 @@ export default function QuestionList() {
     </View>
   );
 }
+
+QuestionList.navigationOptions = () => ({
+  headerTitle: (
+      <Logo />
+  ),
+});

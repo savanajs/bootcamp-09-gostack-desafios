@@ -1,9 +1,13 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import {
+  View, Text, TouchableOpacity,
+} from 'react-native';
 
 import { Container } from './styles';
 
-export default function CheckinList() {
+import Logo from '../../components/Logo';
+
+export default function CheckinList({ navigation }) {
   return (
     <View>
         <Container>
@@ -12,3 +16,9 @@ export default function CheckinList() {
     </View>
   );
 }
+
+CheckinList.navigationOptions = () => ({
+  headerTitle: (
+    <Logo />
+  ),
+});
