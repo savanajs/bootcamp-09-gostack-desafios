@@ -30,7 +30,7 @@ export default (signedIn = true) => createAppContainer(
           ),
           navigationOptions: {
             headerTitle: (
-                <Image
+              <Image
                 resizeMode="cover"
                 style={{
                   width: 135,
@@ -45,21 +45,25 @@ export default (signedIn = true) => createAppContainer(
             ),
             tabBarVisible: true,
             tabBarLabel: 'Check-ins',
-            tabBarIcon: (
+            tabBarIcon: ({ focused }) => (
               <Icon
-                name="add-circle-outline"
+                focused={focused}
+                name="location-on"
                 size={20}
-                color="rgba(0,0,0,1)"
+                color={focused ? '#ee4e62' : 'rgba(0,0,0,.3)'}
               />
             ),
+            tabBarOptions: {
+              activeTintColor: '#ee4e62',
+            },
           },
         },
         Help: {
           screen: createStackNavigator(
             {
-              QuestionList,
               QuestionForm,
               Answer,
+              QuestionList,
             },
             {
               defaultNavigationOptions: {
@@ -73,14 +77,18 @@ export default (signedIn = true) => createAppContainer(
           ),
           navigationOptions: {
             tabBarVisible: true,
-            tabBarLabel: 'Agendar',
-            tabBarIcon: (
+            tabBarLabel: 'Pedir ajuda',
+            tabBarIcon: ({ focused }) => (
               <Icon
-                name="add-circle-outline"
+                focused={focused}
+                name="live-help"
                 size={20}
-                color="rgba(0,0,0,1)"
+                color={focused ? '#ee4e62' : 'rgba(0,0,0,.3)'}
               />
             ),
+            tabBarOptions: {
+              activeTintColor: '#ee4e62',
+            },
           },
         },
       },

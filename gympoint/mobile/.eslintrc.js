@@ -4,9 +4,9 @@ module.exports = {
     es6: true,
   },
   extends: [
+    'prettier/react',
     'prettier',
     'airbnb',
-    'prettier/react'
   ],
   globals: {
     Atomics: 'readonly',
