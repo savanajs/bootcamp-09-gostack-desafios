@@ -47,3 +47,8 @@ export const CustomCardContent = styled.Text`
 export const Space = styled.View`
     height: 20px;
 `;
+
+export const List = styled.FlatList.attrs({
+  showVerticalScrollIndicator: false,
+  contentContainerStyle: { padding: 0 },
+})``;

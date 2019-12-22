@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 
 import {
-  Container, View, CustomButton, CustomCard, CustomCardHeader, CustomCardHeaderTextLeft, CustomCardHeaderTextRight, CustomCardContent,
+  Container, View, CustomButton, CustomCard, CustomCardHeader, CustomCardHeaderTextLeft, CustomCardHeaderTextRight, CustomCardContent, List,
 } from '../../styles/app';
 
 import Logo from '../../components/Logo';
@@ -16,19 +16,24 @@ export default function QuestionList({ navigation }) {
         <TouchableOpacity>
           <CustomButton>Novo pedido de auxilio</CustomButton>
         </TouchableOpacity>
-        <CustomCard>
-          <CustomCardHeader>
-            <CustomCardHeaderTextLeft>
-              <Text>Sem resposta</Text>
-            </CustomCardHeaderTextLeft>
-            <CustomCardHeaderTextRight>
-              <Text>Hoje às 14h</Text>
-            </CustomCardHeaderTextRight>
-          </CustomCardHeader>
-          <CustomCardContent>
+        <List
+          data={[{}, {}]}
+          renderItem={() => (
+            <CustomCard>
+              <CustomCardHeader>
+                <CustomCardHeaderTextLeft>
+                  <Text>Sem resposta</Text>
+                </CustomCardHeaderTextLeft>
+                <CustomCardHeaderTextRight>
+                  <Text>Hoje às 14h</Text>
+                </CustomCardHeaderTextRight>
+              </CustomCardHeader>
+              <CustomCardContent>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae sequi sed, vel recusandae accusantium rem ipsam dolore natus, totam excepturi voluptatum amet! Amet non cum modi sapiente laboriosam? Nihil, enim.
-          </CustomCardContent>
-        </CustomCard>
+              </CustomCardContent>
+            </CustomCard>
+          )}
+        />
       </Container>
     </View>
   );

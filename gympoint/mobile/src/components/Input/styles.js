@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { Form, TextValidator } from 'react-native-validator-form';
 
 export const Container = styled.View`
     padding: 0 15px;
