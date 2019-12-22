@@ -6,6 +6,8 @@ import Cache from '../../lib/Cache';
 class StudentController {
   async index(req, res) {
     const { q } = req.query;
+    const { page = 1 } = req.query;
+
     let students;
 
     if (q) {
@@ -18,14 +20,18 @@ class StudentController {
 
       students = await Student.findAll(where);
     } else {
-      const cacheKey = `student:default:students:1`;
+      const cacheKey = `student:default:students:${page}`;
       const cached = await Cache.get(cacheKey);
+      const limit = 20;
 
       if (cached) {
         return res.json(cached);
       }
 
-      students = await Student.findAll();
+      students = await Student.findAll({
+        limit,
+        offset: (page - 1) * limit,
+      });
     }
 
     return res.json(students);

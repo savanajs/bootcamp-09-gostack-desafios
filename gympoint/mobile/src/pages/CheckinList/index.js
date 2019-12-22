@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   Text, TouchableOpacity,
 } from 'react-native';
@@ -10,6 +11,11 @@ import {
 import Logo from '../../components/Logo';
 
 export default function CheckinList({ navigation }) {
+  const signed = useSelector((state) => {
+    alert(state.auth.id);
+    return state.auth.signed;
+  });
+
   return (
     <View>
       <Container>

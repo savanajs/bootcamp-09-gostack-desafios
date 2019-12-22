@@ -13,14 +13,18 @@ import Cache from '../../lib/Cache';
 
 class EnrollmentController {
   async index(req, res) {
-    const cacheKey = `enrollment:default:enrollments:1`;
+    const { page = 1 } = req.query;
+    const cacheKey = `enrollment:default:enrollments:${page}`;
     const cached = await Cache.get(cacheKey);
+    const limit = 20;
 
     if (cached) {
       return res.json(cached);
     }
 
     const Enrollments = await Enrollment.findAll({
+      limit,
+      offset: (page - 1) * limit,
       attributes: [
         'id',
         'student_id',

@@ -1,11 +1,13 @@
 import { Router } from 'express';
 
 import ValidatorsSessionStore from './app/validators/SessionStore';
+import ValidatorsSessionStudentStore from './app/validators/SessionStudentStore';
 import ValidatorsStudentStore from './app/validators/StudentStore';
 import ValidatorsPlanStore from './app/validators/PlanStore';
 import ValidatorsEnrollmentStore from './app/validators/EnrollmentStore';
 
 import SessionController from './app/controllers/SessionController';
+import SessionStudentController from './app/controllers/SessionStudentController';
 import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
 import EnrollmentController from './app/controllers/EnrollmentController';
@@ -23,6 +25,11 @@ routes.get('/', (req, res) => {
 });
 
 routes.post('/session', ValidatorsSessionStore, SessionController.store);
+routes.post(
+  '/session/student',
+  ValidatorsSessionStudentStore,
+  SessionStudentController.store
+);
 
 routes.use(authMiddleware);
 

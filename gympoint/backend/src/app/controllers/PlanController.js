@@ -4,14 +4,19 @@ import Cache from '../../lib/Cache';
 
 class PlanController {
   async index(req, res) {
-    const cacheKey = `plan:default:plans:1`;
+    const { page = 1 } = req.query;
+    const cacheKey = `plan:default:plans:${page}`;
     const cached = await Cache.get(cacheKey);
 
     if (cached) {
       return res.json(cached);
     }
 
-    const plans = await Plan.findAll();
+    const limit = 20;
+    const plans = await Plan.findAll({
+      limit,
+      offset: (page - 1) * limit,
+    });
 
     return res.json(plans);
   }

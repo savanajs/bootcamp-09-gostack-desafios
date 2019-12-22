@@ -5,14 +5,18 @@ import Cache from '../../lib/Cache';
 
 class HelpOrderController {
   async index(req, res) {
-    const cacheKey = `student:index:helporders:1`;
+    const { page = 1 } = req.query;
+    const cacheKey = `student:index:helporders:${page}`;
     const cached = await Cache.get(cacheKey);
+    const limit = 20;
 
     if (cached) {
       return res.json(cached);
     }
 
     const helps = await HelpOrder.findAll({
+      limit,
+      offset: (page - 1) * limit,
       include: [
         {
           model: Student,

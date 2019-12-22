@@ -1,8 +1,10 @@
 import React from 'react';
 import { Image, Text } from 'react-native';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+
+import { signInRequest } from '../../store/modules/auth/actions';
 
 import {
   Container, View, FormInput, FormWrap, SubmitButton,
@@ -18,10 +20,11 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function SignIn() {
-  const loading = false;
+  const dispatch = useDispatch();
+  const loading = useSelector(state => state.auth.loading);
 
   function onSubmit({ idStudent }) {
-    alert(idStudent);
+    dispatch(signInRequest(idStudent));
   }
 
   return (
