@@ -1,7 +1,7 @@
-export function selectHelpsRequest(query) {
+export function selectCheckinByStudentRequest(query) {
   return {
     type: '@checkin/SELECT_CHECKINS_REQUEST',
-    payload: { query },
+    payload: query,
   };
 }
 
@@ -13,14 +13,14 @@ export function updateAnwserByStudentRequest(id, answer) {
   };
 }
 
-export function selectHelpsSuccess(checkins) {
+export function selectCheckinsSuccess(checkins) {
   return {
     type: '@checkin/SELECT_CHECKINS_SUCCESS',
     payload: { checkins },
   };
 }
 
-export function updateHelpFailure() {
+export function updateCheckinFailure() {
   return {
     type: '@checkin/UPDATE_CHECKIN_REQUEST',
   };

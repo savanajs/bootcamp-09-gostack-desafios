@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 };
 
 export default function help(state = INITIAL_STATE, action) {
-  return produce(state, draft => {
+  return produce(state, (draft) => {
     switch (action.type) {
       case '@help/UPDATE_HELP_REQUEST': {
         draft.loading = true;

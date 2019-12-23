@@ -1,15 +1,40 @@
-import React from 'react';
-import {
-  Text, TouchableOpacity,
-} from 'react-native';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  Container, View, CustomButton, CustomCard, CustomCardHeader, CustomCardHeaderTextLeft, CustomCardHeaderTextRight, CustomCardContent, List,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+
+import { selectHelpsByStudentRequest } from '../../store/modules/help/actions';
+
+import {
+  Container,
+  View,
+  CustomButton,
+  CustomCard,
+  CustomCardHeader,
+  CustomCardHeaderTextLeft,
+  CustomCardHeaderTextRight,
+  CustomCardContent,
+  List,
 } from '../../styles/app';
 
 import Logo from '../../components/Logo';
 
 export default function QuestionList({ navigation }) {
+  const dispatch = useDispatch();
+  const helps = useSelector(state => state.help.helps);
+  const idStudent = useSelector(state => state.auth.student.id);
+
+  useEffect(() => {
+    async function loadPlans() {
+      dispatch(selectHelpsByStudentRequest({ id: idStudent }));
+    }
+
+    loadPlans();
+  }, []);
+
   return (
     <View>
       <Container>
@@ -17,19 +42,20 @@ export default function QuestionList({ navigation }) {
           <CustomButton>Novo pedido de auxilio</CustomButton>
         </TouchableOpacity>
         <List
-          data={[{}, {}]}
-          renderItem={() => (
+          data={helps}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item, index }) => (
             <CustomCard>
               <CustomCardHeader>
                 <CustomCardHeaderTextLeft>
                   <Text>Sem resposta</Text>
                 </CustomCardHeaderTextLeft>
                 <CustomCardHeaderTextRight>
-                  <Text>Hoje às 14h</Text>
+                  <Text>{item.createdAt}</Text>
                 </CustomCardHeaderTextRight>
               </CustomCardHeader>
               <CustomCardContent>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae sequi sed, vel recusandae accusantium rem ipsam dolore natus, totam excepturi voluptatum amet! Amet non cum modi sapiente laboriosam? Nihil, enim.
+                {item.question}
               </CustomCardContent>
             </CustomCard>
           )}

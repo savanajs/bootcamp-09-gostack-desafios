@@ -28,12 +28,15 @@ export function* updateAnwserByStudent({ payload }) {
   }
 }
 
-export function* selectHelps() {
-  try {
-    const response = yield call(api.get, 'help-orders');
+export function* selectHelps({ payload }) {
+  const { id } = payload;
 
+  try {
+    const response = yield call(api.get, `/students/${id}/help-orders`);
+    alert(777);
     yield put(selectHelpsSuccess(response.data));
   } catch (err) {
+    alert(JSON.stringify(err.response.data));
     Alert.alert('Erro', err.response.data.error);
     yield put(helpFailure());
   }

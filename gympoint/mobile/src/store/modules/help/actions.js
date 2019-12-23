@@ -1,7 +1,8 @@
-export function selectHelpsRequest(query) {
+export function selectHelpsByStudentRequest(query) {
+  alert(JSON.stringify(query));
   return {
     type: '@help/SELECT_HELPS_REQUEST',
-    payload: { query },
+    payload: query,
   };
 }
 

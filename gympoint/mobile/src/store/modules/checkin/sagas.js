@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 
 import api from '../../../services/api';
 
-import { checkinFailure, selectCheckinSuccess } from './actions';
+import { checkinFailure, selectCheckinsSuccess } from './actions';
 
 export function* updateAnwserByStudent({ payload }) {
   const { id } = payload;
@@ -21,7 +21,7 @@ export function* updateAnwserByStudent({ payload }) {
 
     Alert.alert('Successo', 'Estudante atualizado com sucesso!');
 
-    yield put(selectCheckinSuccess(response.data));
+    yield put(selectCheckinsSuccess(response.data));
   } catch (err) {
     Alert.alert('Erro', err);
     yield put(checkinFailure());
@@ -31,14 +31,12 @@ export function* updateAnwserByStudent({ payload }) {
 export function* selectCheckinByStudent({ payload }) {
   const { id } = payload;
 
-  delete payload.id;
-
   try {
-    const response = yield call(api.get, `/students/${id}/checkin`);
+    const response = yield call(api.get, `/students/${id}/checkins`);
 
-    yield put(selectCheckinSuccess(response.data));
+    yield put(selectCheckinsSuccess(response.data));
   } catch (err) {
-    Alert.alert('Erro', err.response.data.error);
+    Alert.alert('Erro', err.response.data);
     yield put(checkinFailure());
   }
 }
@@ -48,5 +46,5 @@ export default all([
     '@checkin/UPDATE_CHECKIN_ANWSER_BY_SYUDENT_REQUEST',
     updateAnwserByStudent,
   ),
-  takeLatest('@checkin/SELECT_CHECKINS_REQUEST', selectCheckin),
+  takeLatest('@checkin/SELECT_CHECKINS_REQUEST', selectCheckinByStudent),
 ]);

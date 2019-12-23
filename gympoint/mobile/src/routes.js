@@ -61,9 +61,9 @@ export default (signedIn = true) => createAppContainer(
         Help: {
           screen: createStackNavigator(
             {
+              QuestionList,
               QuestionForm,
               Answer,
-              QuestionList,
             },
             {
               defaultNavigationOptions: {
