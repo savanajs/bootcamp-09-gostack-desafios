@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Text } from 'react-native';
 
@@ -22,14 +22,19 @@ const validationSchema = Yup.object().shape({
 export default function QuestionForm({ navigation }) {
   const dispatch = useDispatch();
   const idStudent = useSelector(state => state.auth.student.id);
-  const loading = useSelector(state => state.help.loading);
+  // const loading = useSelector(state => state.help.loading);
+  const [loadingAction, setLoadingAction] = useState(false);
 
-  function onSubmit({ question }) {
-    dispatch(saveHelpByStudentRequest({
+  async function onSubmit({ question }) {
+    setLoadingAction(true);
+
+    await dispatch(saveHelpByStudentRequest({
       id: idStudent,
       question,
       navigation,
     }));
+
+    setLoadingAction(false);
   }
 
   return (
@@ -56,7 +61,7 @@ export default function QuestionForm({ navigation }) {
                 && <Text style={{ color: 'red' }}>{errors.question}</Text>
                 }
                 <SubmitButton
-                  loading={loading}
+                  loading={loadingAction}
                   disabled={!isValid}
                   onPress={handleSubmit}
                 >
