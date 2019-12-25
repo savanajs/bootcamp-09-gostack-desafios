@@ -3,7 +3,7 @@ import produce from 'immer';
 const INITIAL_STATE = {
   help: null,
   helps: [],
-  loading: false,
+  loading: true,
 };
 
 export default function help(state = INITIAL_STATE, action) {

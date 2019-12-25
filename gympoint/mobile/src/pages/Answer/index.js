@@ -1,45 +1,50 @@
 import React from 'react';
 import {
-  Text, TouchableOpacity,
+  Text,
 } from 'react-native';
 
 import {
-  Container, View, CustomButton, Space, CustomCard, CustomCardHeader, CustomCardHeaderTextLeft, CustomCardHeaderTextRight, CustomCardContent,
+  Container, View, Space, CustomCard, CustomCardHeader, CustomCardHeaderTextLeft, CustomCardHeaderTextRight, CustomCardContent,
 } from '../../styles/app';
 
 import Logo from '../../components/Logo';
 
 export default function Answer({ navigation }) {
+  const question = navigation.getParam('question');
+
   return (
     <View>
       <Container>
-        <TouchableOpacity>
-          <CustomButton>Novo pedido de auxilio</CustomButton>
-        </TouchableOpacity>
         <CustomCard>
           <CustomCardHeader>
             <CustomCardHeaderTextLeft>
               <Text>Pergunta</Text>
             </CustomCardHeaderTextLeft>
             <CustomCardHeaderTextRight>
-              <Text>Hoje às 14h</Text>
+              <Text>{question.createdAt}</Text>
             </CustomCardHeaderTextRight>
           </CustomCardHeader>
           <CustomCardContent>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae sequi sed, vel recusandae accusantium rem ipsam dolore natus, totam excepturi voluptatum amet! Amet non cum modi sapiente laboriosam? Nihil, enim.
+            {question.question}
           </CustomCardContent>
-          <Space />
-          <CustomCardHeader>
-            <CustomCardHeaderTextLeft>
-              <Text>Resposta</Text>
-            </CustomCardHeaderTextLeft>
-            <CustomCardHeaderTextRight>
-              <Text>Hoje às 14h</Text>
-            </CustomCardHeaderTextRight>
-          </CustomCardHeader>
-          <CustomCardContent>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae sequi sed, vel recusandae accusantium rem ipsam dolore natus, totam excepturi voluptatum amet! Amet non cum modi sapiente laboriosam? Nihil, enim.
-          </CustomCardContent>
+          {(question.answer) ? (
+            <>
+              <Space />
+              <CustomCardHeader>
+                <CustomCardHeaderTextLeft>
+                  <Text>Resposta</Text>
+                </CustomCardHeaderTextLeft>
+                <CustomCardHeaderTextRight>
+                  <Text>{question.answer_at}</Text>
+                </CustomCardHeaderTextRight>
+              </CustomCardHeader>
+              <CustomCardContent>
+                {question.answer}
+              </CustomCardContent>
+            </>
+          ) : (
+            <Text />
+          )}
         </CustomCard>
       </Container>
     </View>

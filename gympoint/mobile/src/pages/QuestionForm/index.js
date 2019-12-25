@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Text } from 'react-native';
 
 import { Formik } from 'formik';
@@ -8,6 +9,8 @@ import {
   SubmitButton, Background, FormTextarea, ContainerSecondary, FormSecondary,
 } from './styles';
 
+import { saveHelpByStudentRequest } from '../../store/modules/help/actions';
+
 import Logo from '../../components/Logo';
 
 const validationSchema = Yup.object().shape({
@@ -16,11 +19,17 @@ const validationSchema = Yup.object().shape({
     .required('O campo é obrigatório'),
 });
 
-export default function QuestionForm() {
-  const loading = false;
+export default function QuestionForm({ navigation }) {
+  const dispatch = useDispatch();
+  const idStudent = useSelector(state => state.auth.student.id);
+  const loading = useSelector(state => state.help.loading);
 
   function onSubmit({ question }) {
-    alert(question);
+    dispatch(saveHelpByStudentRequest({
+      id: idStudent,
+      question,
+      navigation,
+    }));
   }
 
   return (

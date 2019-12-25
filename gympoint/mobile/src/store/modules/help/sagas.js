@@ -28,15 +28,32 @@ export function* updateAnwserByStudent({ payload }) {
   }
 }
 
+export function* saveHelp({ payload }) {
+  const { id } = payload;
+  const { question } = payload;
+  const { navigation } = payload;
+
+  delete payload.id;
+
+  try {
+    const response = yield call(api.post, `/students/${id}/help-orders`, {
+      question,
+    });
+    yield put(selectHelpsSuccess(response.data));
+    navigation.navigate('QuestionList');
+  } catch (err) {
+    Alert.alert('Erro', err.response.data.error);
+    yield put(helpFailure());
+  }
+}
+
 export function* selectHelps({ payload }) {
   const { id } = payload;
 
   try {
     const response = yield call(api.get, `/students/${id}/help-orders`);
-    alert(777);
     yield put(selectHelpsSuccess(response.data));
   } catch (err) {
-    alert(JSON.stringify(err.response.data));
     Alert.alert('Erro', err.response.data.error);
     yield put(helpFailure());
   }
@@ -48,4 +65,5 @@ export default all([
     updateAnwserByStudent,
   ),
   takeLatest('@help/SELECT_HELPS_REQUEST', selectHelps),
+  takeLatest('@help/SAVE_HELP_REQUEST', saveHelp),
 ]);

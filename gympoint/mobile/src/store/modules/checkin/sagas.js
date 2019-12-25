@@ -1,32 +1,11 @@
 import {
-  takeLatest, call, put, all,
+  takeLatest, call, put, all, delay,
 } from 'redux-saga/effects';
 import { Alert } from 'react-native';
 
 import api from '../../../services/api';
 
 import { checkinFailure, selectCheckinsSuccess } from './actions';
-
-export function* updateAnwserByStudent({ payload }) {
-  const { id } = payload;
-
-  delete payload.id;
-
-  try {
-    const response = yield call(
-      api.patch,
-      `/checkin-orders/${id}/answer`,
-      payload,
-    );
-
-    Alert.alert('Successo', 'Estudante atualizado com sucesso!');
-
-    yield put(selectCheckinsSuccess(response.data));
-  } catch (err) {
-    Alert.alert('Erro', err);
-    yield put(checkinFailure());
-  }
-}
 
 export function* selectCheckinByStudent({ payload }) {
   const { id } = payload;
@@ -41,10 +20,20 @@ export function* selectCheckinByStudent({ payload }) {
   }
 }
 
+export function* saveCheckinByStudent({ payload }) {
+  const { id } = payload;
+
+  try {
+    const response = yield call(api.post, `/students/${id}/checkins`);
+    yield put(selectCheckinsSuccess(response.data));
+  } catch (err) {
+    Alert.alert('Erro', err.response.data.error);
+
+    yield put(checkinFailure());
+  }
+}
+
 export default all([
-  takeLatest(
-    '@checkin/UPDATE_CHECKIN_ANWSER_BY_SYUDENT_REQUEST',
-    updateAnwserByStudent,
-  ),
   takeLatest('@checkin/SELECT_CHECKINS_REQUEST', selectCheckinByStudent),
+  takeLatest('@checkin/SAVE_CHECKIN_REQUEST', saveCheckinByStudent),
 ]);

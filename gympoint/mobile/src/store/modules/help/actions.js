@@ -1,7 +1,15 @@
 export function selectHelpsByStudentRequest(query) {
-  alert(JSON.stringify(query));
   return {
     type: '@help/SELECT_HELPS_REQUEST',
+    loading: true,
+    payload: query,
+  };
+}
+
+export function saveHelpByStudentRequest(query) {
+  return {
+    type: '@help/SAVE_HELP_REQUEST',
+    loading: true,
     payload: query,
   };
 }

@@ -5,11 +5,11 @@ export function selectCheckinByStudentRequest(query) {
   };
 }
 
-export function updateAnwserByStudentRequest(id, answer) {
+export function saveCheckinByStudentRequest(query) {
   return {
-    type: '@checkin/UPDATE_CHECKIN_ANWSER_BY_SYUDENT_REQUEST',
+    type: '@checkin/SAVE_CHECKIN_REQUEST',
     loading: true,
-    payload: { id, answer },
+    payload: query,
   };
 }
 
@@ -17,12 +17,6 @@ export function selectCheckinsSuccess(checkins) {
   return {
     type: '@checkin/SELECT_CHECKINS_SUCCESS',
     payload: { checkins },
-  };
-}
-
-export function updateCheckinFailure() {
-  return {
-    type: '@checkin/UPDATE_CHECKIN_REQUEST',
   };
 }
 

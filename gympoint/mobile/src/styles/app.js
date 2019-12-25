@@ -44,11 +44,17 @@ export const CustomCardContent = styled.Text`
     line-height: 20;
 `;
 
+export const TextSuccess = styled.Text`
+   color: #54e040;
+`;
+
 export const Space = styled.View`
     height: 20px;
 `;
 
 export const List = styled.FlatList.attrs({
   showVerticalScrollIndicator: false,
-  contentContainerStyle: { padding: 0 },
+  contentContainerStyle: {
+    paddingBottom: 40,
+  },
 })``;

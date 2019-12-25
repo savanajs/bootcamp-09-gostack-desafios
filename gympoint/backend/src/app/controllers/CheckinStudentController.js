@@ -27,15 +27,23 @@ class CheckinController {
   async store(req, res) {
     const { student_id } = req.params;
     const checkins = await GetCheckinsOfWeekByStudent.run(req.params);
+    const limit = 20;
 
     if (checkins.count === 5)
       return res
         .status(401)
         .json({ error: 'You can only do 5 check-ins within 7 calendar days.' });
 
-    const checkin = await Checkin.create({ student_id });
+    await Checkin.create({ student_id });
+    await Cache.invalidatePrefix(`checkin:${student_id}:checkins`);
 
-    return res.json(checkin);
+    const checkins_response = await Checkin.findAll({
+      limit,
+      offset: 0,
+      where: { student_id },
+    });
+
+    return res.json(checkins_response);
   }
 }
 

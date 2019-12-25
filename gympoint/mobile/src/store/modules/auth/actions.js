@@ -1,6 +1,7 @@
 export function signInRequest(id) {
   return {
     type: '@auth/SIGN_IN_REQUEST',
+    loading: true,
     payload: { id },
   };
 }
