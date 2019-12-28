@@ -34,7 +34,7 @@ class PlanController {
   async store(req, res) {
     const plans = await Plan.create(req.body);
 
-    await Cache.invalidatePrefix(`plan:default:plans:1`);
+    await Cache.invalidatePrefix(`plan:default:plans`);
 
     return res.json(plans);
   }
@@ -48,7 +48,7 @@ class PlanController {
 
     const planUpdated = await planCurrent.update(req.body);
 
-    await Cache.invalidatePrefix(`plan:default:plans:1`);
+    await Cache.invalidatePrefix(`plan:default:plans`);
 
     return res.json(planUpdated);
   }
@@ -62,7 +62,7 @@ class PlanController {
 
     await planCurrent.destroy();
 
-    await Cache.invalidatePrefix(`plan:default:plans:1`);
+    await Cache.invalidatePrefix(`plan:default:plans`);
 
     const plans = await Plan.findAll();
 

@@ -5,7 +5,7 @@ class Cache {
     this.redis = new Redis({
       host: process.env.REDIS_HOST,
       port: process.env.REDIS_PORT,
-      keyPrefix: 'cache:',
+      keyPrefix: 'gympointcache:',
     });
   }
 
@@ -25,9 +25,11 @@ class Cache {
   }
 
   async invalidatePrefix(prefix) {
-    const keys = await this.redis.keys(`cache:${prefix}:*`);
+    const keys = await this.redis.keys(`gympointcache:${prefix}:*`);
 
-    const keysWithoutPrefix = keys.map(key => key.replace('cache:', ''));
+    const keysWithoutPrefix = keys.map(key =>
+      key.replace('gympointcache:', '')
+    );
 
     return keysWithoutPrefix && keysWithoutPrefix.length
       ? this.redis.del(keysWithoutPrefix)

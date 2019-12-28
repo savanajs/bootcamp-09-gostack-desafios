@@ -1,15 +1,24 @@
-<strong>Olá, {{ student.name }}</strong>
-<p>Sua matricula na Gympoint foi concluida com sucesso, veja abaixo as informações do seu plano</p>
-<p>
-  <strong>Cliente:</strong> {{student.name}} <br />
-  <strong>Plano:</strong> {{plan.title}} <br />
-  <strong>Tempo:</strong> {{plan.duration}} Meses<br />
-  <strong>Valor mensal:</strong> {{price}} <br />
-  <strong>Valor total do plano:</strong> {{total}} <br />
-  <br />
-  <span>
-    Seu plano estará disponivel: <br />
-    <b>Entre {{start_date}}</b> <br />
-    <b>até {{end_date}}</b>
-  </span>
-</p>
+<div style="padding: 20px;">
+  <div style="margin-bottom: 20px">
+    <strong>Olá, {{ student.name }}</strong>
+    <span style="font-size: 11px; color: #999; display: block;">
+      Sua matricula na Gympoint foi concluida com sucesso, veja abaixo as informações do seu plano
+    </span>
+  </div>
+
+  <div style="padding: 20px; border: 1px solid #ccc; margin-bottom: 20px">
+    <strong>Cliente:</strong> {{student.name}} <br />
+    <strong>Plano:</strong> {{plan.title}} <br />
+    <strong>Tempo:</strong> {{plan.duration}} Mês(es)<br />
+    <strong>Valor mensal:</strong> {{price}} <br />
+    <strong>Valor total do plano:</strong> {{total}} <br />
+  </div>
+
+  <div style="margin-bottom: 20px">
+    <span style="font-size: 12px; color: #444; display: block;">
+      <strong>Seu plano estará disponivel: </strong><br />
+      <span>Entre o {{start_date}}</span>
+      <span>até {{end_date}}</span>
+    </span>
+  </div>
+</div>

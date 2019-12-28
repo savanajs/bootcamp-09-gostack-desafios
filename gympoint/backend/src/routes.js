@@ -13,7 +13,6 @@ import PlanController from './app/controllers/PlanController';
 import EnrollmentController from './app/controllers/EnrollmentController';
 import CheckinStudentController from './app/controllers/CheckinStudentController';
 import HelpOrderStudentController from './app/controllers/HelpOrderStudentController';
-import AnswerStudentController from './app/controllers/AnswerStudentController';
 import NotificationsController from './app/controllers/NotificationController';
 
 import authMiddleware from './app/middlewares/auth';
@@ -63,7 +62,10 @@ routes.post(
   '/students/:student_id/help-orders',
   HelpOrderStudentController.createByStudent
 );
-routes.patch('/help-orders/:id/answer', AnswerStudentController.update);
+routes.patch(
+  '/help-orders/:id/answer',
+  HelpOrderStudentController.updateAnwserByStudent
+);
 
 /*
  * Plans Route

@@ -91,7 +91,7 @@ class EnrollmentController {
 
     const enrollments = await Enrollment.create(req.body);
 
-    await Cache.invalidatePrefix(`enrollment:default:enrollments:1`);
+    await Cache.invalidatePrefix(`enrollment:default:enrollments`);
 
     const enrollment = await Enrollment.findByPk(enrollments.id, {
       include: [
@@ -130,7 +130,7 @@ class EnrollmentController {
 
     const EnrollmentUpdated = await EnrollmentCurrent.update(req.body);
 
-    await Cache.invalidatePrefix(`enrollment:default:enrollments:1`);
+    await Cache.invalidatePrefix(`enrollment:default:enrollments`);
 
     return res.json(EnrollmentUpdated);
   }
@@ -145,7 +145,7 @@ class EnrollmentController {
 
     await EnrollmentCurrent.destroy();
 
-    await Cache.invalidatePrefix(`enrollment:default:enrollments:1`);
+    await Cache.invalidatePrefix(`enrollment:default:enrollments`);
 
     const Enrollments = await Enrollment.findAll({
       attributes: ['id', 'start_date', 'end_date', 'price', 'active'],

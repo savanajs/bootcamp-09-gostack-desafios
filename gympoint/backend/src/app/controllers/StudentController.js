@@ -60,7 +60,7 @@ class StudentController {
       req.body
     );
 
-    await Cache.invalidatePrefix(`student:default:students:1`);
+    await Cache.invalidatePrefix(`student:default:students`);
 
     return res.json({
       id,
@@ -80,7 +80,7 @@ class StudentController {
 
     const studentUpdated = await studentCurrent.update(req.body);
 
-    await Cache.invalidatePrefix(`student:default:students:1`);
+    await Cache.invalidatePrefix(`student:default:students`);
 
     return res.json(studentUpdated);
   }
@@ -93,7 +93,7 @@ class StudentController {
 
     await studentCurrent.destroy();
 
-    await Cache.invalidatePrefix(`student:default:students:1`);
+    await Cache.invalidatePrefix(`student:default:students`);
 
     const students = await Student.findAll();
 

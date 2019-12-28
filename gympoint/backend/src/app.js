@@ -23,6 +23,7 @@ class App {
     ); // cors({origin: 'http://...'})
 
     this.server.use(express.json());
+    this.server.use('/public', express.static('public'));
   }
 
   routes() {

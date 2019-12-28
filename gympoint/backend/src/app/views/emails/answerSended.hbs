@@ -1,8 +1,22 @@
-<strong>Olá, {{ student.name }}</strong>
-<p>Veja abaixo uma resposta para sua duvida</p>
-<p>
-  <strong>{{anwserUpdated.question}}</strong><br />
-  <small>Pergunta enviada no {{createdAt}}</small><br /><br />
-  <span>{{anwserUpdated.answer}}</span><br />
-  <small>Resposta enviada no {{answer_at}}</small>
-</p>
+<div style="padding: 20px;">
+  <div style="margin-bottom: 20px">
+    <strong>Olá, {{ student.name }}</strong>
+    <span style="font-size: 11px; color: #999; display: block;">
+      Veja abaixo uma resposta para sua duvida
+    </span>
+  </div>
+
+  <div style="padding: 20px; border: 1px solid #ccc">
+    <strong>{{anwserUpdated.question}}</strong>
+    <span style="font-size: 11px; color: #999; display: block;">
+      Pergunta enviada no {{createdAt}}
+    </span>
+  </div>
+
+  <div style="padding: 20px; border: 1px solid #ccc; border-top: none; background-color: #e7ffe7">
+    <span>{{anwserUpdated.answer}}</span>
+    <span style="font-size: 11px; color: #999; display: block;">
+      Resposta enviada no {{answer_at}}
+    </span>
+  </div>
+</div>

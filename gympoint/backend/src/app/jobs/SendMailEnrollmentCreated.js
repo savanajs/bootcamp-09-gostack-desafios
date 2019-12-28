@@ -13,8 +13,6 @@ class SendMailEnrollmentCreated {
 
   // Tarefa q ira executar
   async handle({ data }) {
-    console.log('A fila executou=========================================');
-
     const { enrollment } = data;
 
     await Mail.sendMail({

@@ -11,8 +11,6 @@ class SendMailAnswerStudent {
 
   // Tarefa q ira executar
   async handle({ data }) {
-    console.log('A fila executou');
-
     const { student, anwserUpdated } = data;
 
     await Mail.sendMail({
