@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-
-import { Table } from '../../styles/table.js';
 
 import {
   deleteEnrollmentRequest,
   selectEnrollmentsRequest,
 } from '../../store/modules/enrollment/actions';
 
+import Paginate from '../../components/Paginate';
+
 export default function Enrollments() {
   const dispatch = useDispatch();
   const loading = useSelector(state => state.enrollment.loading);
+  const [hasResults, setHasResults] = useState(true);
+  const [page, setPage] = useState(1);
+
   const enrollments = useSelector(state => {
-    return state.enrollment.enrollments.map(item => {
+    const rows = state.enrollment.enrollments.rows.map(item => {
       return {
         ...item,
         start_date: format(new Date(item.start_date), "d 'de' MMMM 'de' yyyy", {
@@ -26,19 +29,31 @@ export default function Enrollments() {
         }),
       };
     });
+
+    return {
+      count: state.enrollment.enrollments.count,
+      rows,
+    };
   });
 
   useEffect(() => {
     async function loadEnrollments() {
-      dispatch(selectEnrollmentsRequest());
+      await dispatch(selectEnrollmentsRequest(`?page=${page}`));
+
+      if (enrollments.rows && enrollments.rows.length) {
+        setHasResults(true);
+      } else {
+        setHasResults(false);
+      }
     }
 
     loadEnrollments();
-  }, []);
+  }, [page]);
 
   function handleDelete(e, { id }) {
     e.preventDefault();
 
+    // eslint-disable-next-line no-alert
     const confirm = window.confirm('Gostaria realmente de remover esse item?');
 
     if (confirm) {
@@ -57,7 +72,7 @@ export default function Enrollments() {
             <div className="area-button">
               <Link
                 to="/enrollments/new"
-                className="btn btn--normal btn--primary btn-link"
+                className="btn btn--normal btn--primary"
               >
                 <i className="fa fa-plus" aria-hidden="true" />
                 Cadastrar
@@ -67,59 +82,72 @@ export default function Enrollments() {
         </div>
         <div className="list__content">
           <div className="card">
-            {enrollments && enrollments.length ? (
-              <Table>
-                <thead>
-                  <tr>
-                    <th className="item-medium">Aluno</th>
-                    <th className="center">Plano</th>
-                    <th className="center">Inicio</th>
-                    <th className="center">Término</th>
-                    <th className="center">Ativa</th>
-                    <th />
-                  </tr>
-                </thead>
-                <tbody>
-                  {enrollments.map(item => (
-                    <tr key={item.id}>
-                      <td>{item.student.name}</td>
-                      <td className="center">{item.plan.title}</td>
-                      <td className="center">{item.start_date}</td>
-                      <td className="center">{item.end_date}</td>
-                      <td className="center">
-                        {item.active ? (
-                          <i
-                            className="fa fa-check-circle active"
-                            aria-hidden="true"
-                          />
-                        ) : (
-                          <i
-                            className="fa fa-check-circle"
-                            aria-hidden="true"
-                          />
-                        )}
-                      </td>
-                      <td className="right actions">
-                        <Link
-                          to={`/enrollments/edit/${item.id}`}
-                          className="edit"
-                        >
-                          editar
-                        </Link>
-                        <a
-                          href="#"
-                          onClick={e => handleDelete(e, item)}
-                          className="delete"
-                        >
-                          {loading ? 'aguarde...' : 'apagar'}
-                        </a>
-                      </td>
+            {enrollments.rows && enrollments.rows.length ? (
+              <>
+                <table>
+                  <thead>
+                    <tr>
+                      <th className="item-medium">Aluno</th>
+                      <th className="center">Plano</th>
+                      <th className="center">Inicio</th>
+                      <th className="center">Término</th>
+                      <th className="center">Ativa</th>
+                      <th />
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
+                  </thead>
+                  <tbody>
+                    {enrollments.rows.map(item => (
+                      <tr key={item.id}>
+                        <td>{item.student.name}</td>
+                        <td className="center">{item.plan.title}</td>
+                        <td className="center">{item.start_date}</td>
+                        <td className="center">{item.end_date}</td>
+                        <td className="center">
+                          {item.active ? (
+                            <i
+                              className="fa fa-check-circle active"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <i
+                              className="fa fa-check-circle"
+                              aria-hidden="true"
+                            />
+                          )}
+                        </td>
+                        <td className="right actions">
+                          <Link
+                            to={`/enrollments/edit/${item.id}`}
+                            className="edit"
+                          >
+                            editar
+                          </Link>
+                          <a
+                            href="/"
+                            onClick={e => handleDelete(e, item)}
+                            className="delete"
+                          >
+                            {loading ? 'aguarde...' : 'apagar'}
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <Paginate
+                  onSetPage={setPage}
+                  page={page}
+                  pages={enrollments.pages}
+                />
+              </>
             ) : (
-              <div className="message warn">Resultados não encontrados</div>
+              <>
+                {!loading && hasResults ? (
+                  <div className="message warn">Carregando....</div>
+                ) : (
+                  <div className="message warn">Resultados não encontrados</div>
+                )}
+              </>
             )}
           </div>
         </div>

@@ -5,12 +5,13 @@ import * as Yup from 'yup';
 
 import Modal from '../../components/Modal';
 import { FormWrapper } from '../../styles/form.js';
-import { Table } from '../../styles/table.js';
 
 import {
   selectHelpsRequest,
   updateAnwserByStudentRequest,
 } from '../../store/modules/help/actions';
+
+import Paginate from '../../components/Paginate';
 
 const schema = Yup.object().shape({
   answer: Yup.string().required('A resposta é obrigatória'),
@@ -20,21 +21,16 @@ export default function Helps() {
   const dispatch = useDispatch();
   const loading = useSelector(state => state.help.loading);
   const helps = useSelector(state => state.help.helps);
-  const [search, setSearch] = useState('');
   const [isOpenModal, setModalOpen] = useState(false);
   const [help, setHelp] = useState({});
 
   useEffect(() => {
     async function loadHelps() {
-      if (search && search.length < 3) return;
-
-      const query = search ? `?q=${search}` : '';
-
-      dispatch(selectHelpsRequest(query));
+      await dispatch(selectHelpsRequest());
     }
 
     loadHelps();
-  }, [search]);
+  }, []);
 
   useEffect(() => {
     if (help.question) setModalOpen(true);
@@ -42,8 +38,6 @@ export default function Helps() {
 
   function handleOpenModal(e, help) {
     e.preventDefault();
-
-    console.log(help);
 
     setHelp(help);
   }
@@ -67,32 +61,40 @@ export default function Helps() {
         <div className="list__content">
           <div className="card">
             {helps && helps.length ? (
-              <Table>
-                <thead>
-                  <tr>
-                    <th className="item-large">Alunos</th>
-                    <th />
-                  </tr>
-                </thead>
-                <tbody>
-                  {helps.map(item => (
-                    <tr key={item.id}>
-                      <td>{item.student.name}</td>
-                      <td className="right actions">
-                        <a
-                          href="/"
-                          onClick={e => handleOpenModal(e, item)}
-                          className="edit"
-                        >
-                          responder
-                        </a>
-                      </td>
+              <>
+                <table>
+                  <thead>
+                    <tr>
+                      <th className="item-large">Alunos</th>
+                      <th />
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
+                  </thead>
+                  <tbody>
+                    {helps.map(item => (
+                      <tr key={item.id}>
+                        <td>{item.student.name}</td>
+                        <td className="right actions">
+                          <a
+                            href="/"
+                            onClick={e => handleOpenModal(e, item)}
+                            className="edit"
+                          >
+                            responder
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
             ) : (
-              <div className="message warn">Resultados não encontrados</div>
+              <>
+                {!loading ? (
+                  <div className="message warn">Carregando....</div>
+                ) : (
+                  <div className="message warn">Resultados não encontrados</div>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -108,7 +110,7 @@ export default function Helps() {
               </div>
               <Form initialData={help} schema={schema} onSubmit={handleSubmit}>
                 <div className="input-control">
-                  <label htmlFor="message" className="label">
+                  <label htmlFor="answer" className="label">
                     Sua resposta
                   </label>
                   <Textarea
@@ -119,7 +121,10 @@ export default function Helps() {
                   />
                 </div>
                 <div className="input-control">
-                  <button className="btn btn--large btn--center btn--primary">
+                  <button
+                    type="button"
+                    className="btn btn--large btn--center btn--primary"
+                  >
                     {loading ? '...aguarde' : 'Responder aluno'}
                   </button>
                 </div>

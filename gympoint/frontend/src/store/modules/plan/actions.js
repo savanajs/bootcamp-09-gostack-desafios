@@ -1,6 +1,7 @@
-export function selectPlansRequest() {
+export function selectPlansRequest(query) {
   return {
     type: '@plan/SELECT_PLANS_REQUEST',
+    payload: { query },
   };
 }
 

@@ -1,9 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
-// eslint-disable-next-line import/extensions
-import { Table } from '../../styles/table.js';
 
 import {
   deletePlanRequest,
@@ -12,25 +9,41 @@ import {
 
 import { formatPrice } from '../../util/format';
 
+import Paginate from '../../components/Paginate';
+
 export default function Plans() {
   const dispatch = useDispatch();
+  const [hasResults, setHasResults] = useState(true);
   const loading = useSelector(state => state.plan.loading);
+  const [page, setPage] = useState(1);
+
   const plans = useSelector(state => {
-    return state.plan.plans.map(plan => {
+    const rows = state.plan.plans.rows.map(plan => {
       return {
         ...plan,
         price: formatPrice(plan.price),
       };
     });
+
+    return {
+      count: state.plan.plans.count,
+      rows,
+    };
   });
 
   useEffect(() => {
     async function loadPlans() {
-      dispatch(selectPlansRequest());
+      await dispatch(selectPlansRequest(`?page=${page}`));
+
+      if (plans.rows && plans.rows.length) {
+        setHasResults(true);
+      } else {
+        setHasResults(false);
+      }
     }
 
     loadPlans();
-  }, []);
+  }, [page]);
 
   function handleDelete(e, { id }) {
     e.preventDefault();
@@ -52,10 +65,7 @@ export default function Plans() {
           </div>
           <div className="col-right">
             <div className="area-button">
-              <Link
-                to="/plans/new"
-                className="btn btn--normal btn--primary btn-link"
-              >
+              <Link to="/plans/new" className="btn btn--normal btn--primary">
                 <i className="fa fa-plus" aria-hidden="true" />
                 Cadastrar
               </Link>
@@ -64,44 +74,53 @@ export default function Plans() {
         </div>
         <div className="list__content">
           <div className="card">
-            {plans && plans.length ? (
-              <Table>
-                <thead>
-                  <tr>
-                    <th className="item-large">Titulo</th>
-                    <th className="center item-email">Duração</th>
-                    <th className="center item-age">Valor p/Mês</th>
-                    <th />
-                  </tr>
-                </thead>
-                <tbody>
-                  {plans.map(item => (
-                    <tr key={item.id}>
-                      <td>{item.title}</td>
-                      <td className="center">
-                        {item.duration === 1
-                          ? `${item.duration} mês`
-                          : `${item.duration} meses`}
-                      </td>
-                      <td className="center">{item.price}</td>
-                      <td className="right actions">
-                        <Link to={`/plans/edit/${item.id}`} className="edit">
-                          editar
-                        </Link>
-                        <a
-                          href="/"
-                          onClick={e => handleDelete(e, item)}
-                          className="delete"
-                        >
-                          {loading ? 'aguarde...' : 'apagar'}
-                        </a>
-                      </td>
+            {plans.rows && plans.rows.length ? (
+              <>
+                <table>
+                  <thead>
+                    <tr>
+                      <th className="item-large">Titulo</th>
+                      <th className="center item-email">Duração</th>
+                      <th className="center item-age">Valor p/Mês</th>
+                      <th />
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
+                  </thead>
+                  <tbody>
+                    {plans.rows.map(item => (
+                      <tr key={item.id}>
+                        <td>{item.title}</td>
+                        <td className="center">
+                          {item.duration === 1
+                            ? `${item.duration} mês`
+                            : `${item.duration} meses`}
+                        </td>
+                        <td className="center">{item.price}</td>
+                        <td className="right actions">
+                          <Link to={`/plans/edit/${item.id}`} className="edit">
+                            editar
+                          </Link>
+                          <a
+                            href="/"
+                            onClick={e => handleDelete(e, item)}
+                            className="delete"
+                          >
+                            {loading ? 'aguarde...' : 'apagar'}
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <Paginate onSetPage={setPage} page={page} pages={plans.pages} />
+              </>
             ) : (
-              <div className="message warn">Resultados não encontrados</div>
+              <>
+                {!loading && hasResults ? (
+                  <div className="message warn">Carregando....</div>
+                ) : (
+                  <div className="message warn">Resultados não encontrados</div>
+                )}
+              </>
             )}
           </div>
         </div>

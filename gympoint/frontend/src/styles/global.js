@@ -70,6 +70,25 @@ export default createGlobalStyle`
     cursor: pointer;
   }
 
+  .text-center {
+    text-align: center;
+  }
+
+  .btn-link {
+    color: #ee4d64;
+    text-decoration: none;
+    border: 1px solid #ee4d64;
+    border-radius: 10px;
+    padding: 5px 14px;
+    transition: all 0.2s;
+    background-color: #f5f5f5;
+    &:hover {
+      background-color: #ffffff;
+      color: ${darken(0.15, '#ee4d64')};
+      border-color: ${darken(0.15, '#ee4d64')};
+    }
+  }
+
   .btn {
     cursor: pointer;
     width: 100%;
@@ -92,7 +111,7 @@ export default createGlobalStyle`
         background-color: ${darken(0.08, '#ee4d64')};
       }
     }
-
+    
     &--disable {
       background-color: #CCCCCC;
       &:hover {

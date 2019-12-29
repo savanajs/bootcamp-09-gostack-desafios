@@ -1,7 +1,6 @@
-export function selectHelpsRequest(query) {
+export function selectHelpsRequest() {
   return {
     type: '@help/SELECT_HELPS_REQUEST',
-    payload: { query },
   };
 }
 

@@ -86,14 +86,14 @@ export default function SavePlan({ match }) {
         </div>
         <div className="col-right">
           <div className="area-buttons">
-            <Link to="/plans" className="btn btn--normal btn--disable btn-link">
+            <Link to="/plans" className="btn btn--normal btn--disable">
               <i className="fa fa-angle-left" aria-hidden="true" /> Voltar
             </Link>
             {id ? (
               <button
                 type="submit"
                 form="form-create"
-                className="btn btn--normal btn--primary btn-link"
+                className="btn btn--normal btn--primary"
               >
                 <i className="fa fa-plus" aria-hidden="true" />
                 {loading ? 'Salvando....' : 'Editar'}

@@ -22,7 +22,7 @@ class EnrollmentController {
       return res.json(cached);
     }
 
-    const Enrollments = await Enrollment.findAll({
+    const Enrollments = await Enrollment.findAndCountAll({
       limit,
       offset: (page - 1) * limit,
       attributes: [
@@ -48,7 +48,13 @@ class EnrollmentController {
       ],
     });
 
-    return res.json(Enrollments);
+    const pages = Math.round(Enrollments.count / limit);
+
+    return res.json({
+      pages,
+      count: Enrollments.count,
+      rows: Enrollments.rows,
+    });
   }
 
   async show(req, res) {

@@ -46,9 +46,9 @@ export function* createPlan({ payload }) {
   }
 }
 
-export function* selectPlans() {
+export function* selectPlans({ payload }) {
   try {
-    const response = yield call(api.get, `plans`);
+    const response = yield call(api.get, `plans${payload.query || ''}`);
 
     yield put(selectPlansSuccess(response.data));
   } catch (err) {

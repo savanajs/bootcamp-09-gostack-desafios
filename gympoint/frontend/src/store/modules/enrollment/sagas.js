@@ -57,9 +57,9 @@ export function* createEnrollment({ payload }) {
   }
 }
 
-export function* selectEnrollments() {
+export function* selectEnrollments({ payload }) {
   try {
-    const response = yield call(api.get, `enrollments`);
+    const response = yield call(api.get, `enrollments${payload.query}`);
 
     yield put(selectEnrollmentsSuccess(response.data));
   } catch (err) {

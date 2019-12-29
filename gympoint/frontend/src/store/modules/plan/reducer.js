@@ -2,7 +2,9 @@ import produce from 'immer';
 
 const INITIAL_STATE = {
   plan: null,
-  plans: [],
+  plans: {
+    rows: [],
+  },
   loading: false,
 };
 

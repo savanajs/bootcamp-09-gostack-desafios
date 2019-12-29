@@ -7,34 +7,41 @@ class StudentController {
   async index(req, res) {
     const { q } = req.query;
     const { page = 1 } = req.query;
-
+    const limit = req.query.page ? 20 : 1000;
     let students;
 
     if (q) {
       const query = `%${q}%`;
       const where = {
         where: {
-          name: { [Op.like]: query },
+          name: { [Op.iLike]: query },
         },
+        limit,
+        offset: (page - 1) * limit,
       };
 
-      students = await Student.findAll(where);
+      students = await Student.findAndCountAll(where);
     } else {
       const cacheKey = `student:default:students:${page}`;
       const cached = await Cache.get(cacheKey);
-      const limit = 20;
 
       if (cached) {
         return res.json(cached);
       }
 
-      students = await Student.findAll({
+      students = await Student.findAndCountAll({
         limit,
         offset: (page - 1) * limit,
       });
     }
 
-    return res.json(students);
+    const pages = Math.round(students.count / limit);
+
+    return res.json({
+      pages,
+      count: students.count,
+      rows: students.rows,
+    });
   }
 
   async show(req, res) {

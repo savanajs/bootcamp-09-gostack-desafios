@@ -1,6 +1,7 @@
-export function selectEnrollmentsRequest() {
+export function selectEnrollmentsRequest(query) {
   return {
     type: '@enrollment/SELECT_ENROLLMENTS_REQUEST',
+    payload: { query },
   };
 }
 

@@ -12,13 +12,19 @@ class PlanController {
       return res.json(cached);
     }
 
-    const limit = 20;
-    const plans = await Plan.findAll({
+    const limit = req.query.page ? 20 : 1000;
+    const plans = await Plan.findAndCountAll({
       limit,
       offset: (page - 1) * limit,
     });
 
-    return res.json(plans);
+    const pages = Math.round(plans.count / limit);
+
+    return res.json({
+      pages,
+      count: plans.count,
+      rows: plans.rows,
+    });
   }
 
   async show(req, res) {

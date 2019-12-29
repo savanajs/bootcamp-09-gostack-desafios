@@ -33,7 +33,7 @@ export default function SaveEnrollment({ match }) {
   const loading = useSelector(state => state.enrollment.loading);
 
   const students = useSelector(state => {
-    return state.student.students.map(item => {
+    return state.student.students.rows.map(item => {
       return {
         ...item,
         title: item.name,
@@ -42,7 +42,7 @@ export default function SaveEnrollment({ match }) {
   });
 
   const plans = useSelector(state => {
-    return state.plan.plans.map(plan => {
+    return state.plan.plans.rows.map(plan => {
       return {
         ...plan,
         title: `Plano ${plan.title} durante ${
@@ -129,6 +129,8 @@ export default function SaveEnrollment({ match }) {
   }
 
   function handleStartDate(e) {
+    if (!e.target.value) return;
+
     const plan = filterPlan(enrollment.plan_id)[0];
 
     setEnrollment({
@@ -156,7 +158,7 @@ export default function SaveEnrollment({ match }) {
               <button
                 type="submit"
                 form="form-create"
-                className="btn btn--normal btn--primary btn-link"
+                className="btn btn--normal btn--primary"
               >
                 <i className="fa fa-plus" aria-hidden="true" />
                 {loading ? 'Salvando....' : 'Editar'}
@@ -165,7 +167,7 @@ export default function SaveEnrollment({ match }) {
               <button
                 type="submit"
                 form="form-create"
-                className="btn btn--normal btn--primary btn-link"
+                className="btn btn--normal btn--primary"
               >
                 <i className="fa fa-plus" aria-hidden="true" />
                 {loading ? 'Salvando....' : 'Cadastrar'}
