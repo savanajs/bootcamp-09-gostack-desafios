@@ -9,10 +9,9 @@ export const View = styled.View`
 `;
 
 export const Container = styled.KeyboardAvoidingView.attrs({
-  enabled: Platform.OS === 'ios',
-  behavior: 'padding',
-})`
-  `;
+    enabled: Platform.OS === 'ios',
+    behavior: 'padding',
+})``;
 
 export const CustomButton = styled(Button)`
     margin-bottom: 20px;
@@ -45,7 +44,7 @@ export const CustomCardContent = styled.Text`
 `;
 
 export const TextSuccess = styled.Text`
-   color: #54e040;
+    color: #54e040;
 `;
 
 export const Space = styled.View`
@@ -53,8 +52,8 @@ export const Space = styled.View`
 `;
 
 export const List = styled.FlatList.attrs({
-  showVerticalScrollIndicator: false,
-  contentContainerStyle: {
-    paddingBottom: 40,
-  },
+    showVerticalScrollIndicator: false,
+    contentContainerStyle: {
+        paddingBottom: 40,
+    },
 })``;

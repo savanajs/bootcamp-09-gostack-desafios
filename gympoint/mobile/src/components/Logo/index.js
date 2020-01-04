@@ -7,18 +7,18 @@ import logo from '../../assets/logo-secondary.png';
 import { Container } from './styles';
 
 export default function Logo() {
-  return (
+    return (
         <Image
             resizeMode="cover"
             style={{
-              width: 135,
-              height: 24,
-              resizeMode: 'contain',
-              alignSelf: 'center',
-              marginLeft: 'auto',
-              marginRight: 'auto',
+                width: 135,
+                height: 24,
+                resizeMode: 'contain',
+                alignSelf: 'center',
+                marginLeft: 'auto',
+                marginRight: 'auto',
             }}
             source={logo}
         />
-  );
+    );
 }

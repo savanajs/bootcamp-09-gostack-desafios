@@ -10,8 +10,8 @@ export const View = styled.View`
 `;
 
 export const Container = styled.KeyboardAvoidingView.attrs({
-  enabled: Platform.OS === 'ios',
-  behavior: 'padding',
+    enabled: Platform.OS === 'ios',
+    behavior: 'padding',
 })`
     flex: 1;
     justify-content: center;

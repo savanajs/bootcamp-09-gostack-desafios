@@ -5,7 +5,7 @@ import checkin from './checkin/reducer';
 import help from './help/reducer';
 
 export default combineReducers({
-  auth,
-  checkin,
-  help,
+    auth,
+    checkin,
+    help,
 });

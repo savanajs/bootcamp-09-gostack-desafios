@@ -9,12 +9,12 @@ import { store, persistor } from './store';
 import App from './App';
 
 export default function Index() {
-  return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <StatusBar barStyle="light-content" backgroundColor="#ee4e62" />
-        <App />
-      </PersistGate>
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <StatusBar barStyle="light-content" backgroundColor="#ee4e62" />
+                <App />
+            </PersistGate>
+        </Provider>
+    );
 }

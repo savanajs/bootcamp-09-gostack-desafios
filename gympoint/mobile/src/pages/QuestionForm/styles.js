@@ -16,8 +16,8 @@ export const Background = styled.View`
 `;
 
 export const Container = styled.KeyboardAvoidingView.attrs({
-  enabled: Platform.OS === 'ios',
-  behavior: 'padding',
+    enabled: Platform.OS === 'ios',
+    behavior: 'padding',
 })`
     flex: 1;
     justify-content: center;
@@ -26,12 +26,12 @@ export const Container = styled.KeyboardAvoidingView.attrs({
 `;
 
 export const ContainerSecondary = styled.KeyboardAvoidingView.attrs({
-  enabled: Platform.OS === 'ios',
-  behavior: 'padding',
+    enabled: Platform.OS === 'ios',
+    behavior: 'padding',
 })`
-      flex: 1;
-      padding: 0 30px;
-  `;
+    flex: 1;
+    padding: 0 30px;
+`;
 
 export const Form = styled.View`
     align-self: stretch;
