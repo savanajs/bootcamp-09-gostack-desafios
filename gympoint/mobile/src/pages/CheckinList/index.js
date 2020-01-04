@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Text } from 'react-native';
+import { Text, ActivityIndicator } from 'react-native';
 import { distanceInWords } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
-import { signOut } from '../../store/modules/auth/actions';
 import {
     selectCheckinByStudentRequest,
     saveCheckinByStudentRequest,
@@ -18,13 +17,15 @@ import {
     CustomCardHeaderTextLeft,
     CustomCardHeaderTextRight,
     List,
+    Space,
+    SubmitButton,
 } from '../../styles/app';
-
-import { SubmitButton } from '../../styles/form';
 
 import Logo from '../../components/Logo';
 
 export default function CheckinList() {
+    const more = 20;
+    const [limit, setLimit] = useState(more);
     const dispatch = useDispatch();
     const loading = useSelector(state => state.checkin.loading);
     const idStudent = useSelector(state => state.auth.student.id);
@@ -41,21 +42,32 @@ export default function CheckinList() {
 
     useEffect(() => {
         async function loadPlans() {
-            dispatch(selectCheckinByStudentRequest({ id: idStudent }));
+            dispatch(selectCheckinByStudentRequest({ id: idStudent, limit }));
         }
 
         loadPlans();
-    }, [dispatch, idStudent]);
-
-    function handleCancel() {
-        dispatch(signOut());
-    }
+    }, [dispatch, idStudent, limit]);
 
     function makeCheckin() {
         dispatch(
             saveCheckinByStudentRequest({
                 id: idStudent,
             })
+        );
+    }
+
+    async function loadPlans() {
+        setLimit(limit + more);
+        dispatch(selectCheckinByStudentRequest({ id: idStudent, limit }));
+    }
+
+    function renderFooter() {
+        if (!loading) return null;
+
+        return (
+            <View>
+                <ActivityIndicator />
+            </View>
         );
     }
 
@@ -66,6 +78,7 @@ export default function CheckinList() {
                     <SubmitButton loading={loading} onPress={makeCheckin}>
                         Novo check-in
                     </SubmitButton>
+                    <Space />
                     <List
                         data={checkins}
                         keyExtractor={item => String(item.id)}
@@ -81,12 +94,14 @@ export default function CheckinList() {
                                 </CustomCardHeader>
                             </CustomCard>
                         )}
+                        onEndReached={loadPlans}
+                        onEndReachedThreshold={0.1}
+                        ListFooterComponent={renderFooter}
                     />
-                    <SubmitButton onPress={handleCancel}>Logout</SubmitButton>
                 </Container>
             ) : (
                 <Container>
-                    <Text>Loading...</Text>
+                    <ActivityIndicator />
                 </Container>
             )}
         </View>

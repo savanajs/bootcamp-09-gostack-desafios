@@ -46,10 +46,13 @@ export function* saveHelp({ payload }) {
 }
 
 export function* selectHelps({ payload }) {
-    const { id } = payload;
+    const { id, limit } = payload;
 
     try {
-        const response = yield call(api.get, `/students/${id}/help-orders`);
+        const response = yield call(
+            api.get,
+            `/students/${id}/help-orders?limit=${limit}`
+        );
         yield put(selectHelpsSuccess(response.data));
     } catch (err) {
         Alert.alert('Erro', err.response.data.error);

@@ -21,7 +21,11 @@ export function* signIn({ payload }) {
 
         // history.push('/students');
     } catch (err) {
-        Alert.alert('Erro no login', JSON.stringify(err.response.data.error));
+        const messageError = err.response
+            ? err.response.data.error
+            : 'Houve um erro!';
+
+        Alert.alert('Erro no login', messageError);
         yield put(signFailure());
     }
 }

@@ -6,10 +6,13 @@ import api from '../../../services/api';
 import { checkinFailure, selectCheckinsSuccess } from './actions';
 
 export function* selectCheckinByStudent({ payload }) {
-    const { id } = payload;
+    const { id, limit } = payload;
 
     try {
-        const response = yield call(api.get, `/students/${id}/checkins`);
+        const response = yield call(
+            api.get,
+            `/students/${id}/checkins?limit=${limit}`
+        );
 
         yield put(selectCheckinsSuccess(response.data));
     } catch (err) {
@@ -23,10 +26,10 @@ export function* saveCheckinByStudent({ payload }) {
 
     try {
         const response = yield call(api.post, `/students/${id}/checkins`);
+        Alert.alert('Mensagem', 'Novo checkin foi feito com sucesso!');
         yield put(selectCheckinsSuccess(response.data));
     } catch (err) {
         Alert.alert('Erro', err.response.data.error);
-
         yield put(checkinFailure());
     }
 }

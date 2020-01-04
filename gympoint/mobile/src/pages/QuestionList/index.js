@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { distanceInWords } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 import { selectHelpsByStudentRequest } from '../../store/modules/help/actions';
 
@@ -24,6 +24,8 @@ import {
 import Logo from '../../components/Logo';
 
 export default function QuestionList({ navigation }) {
+    const more = 20;
+    const [limit, setLimit] = useState(more);
     const dispatch = useDispatch();
     const loading = useSelector(state => state.help.loading);
     const helps = useSelector(state =>
@@ -43,11 +45,26 @@ export default function QuestionList({ navigation }) {
 
     useEffect(() => {
         async function loadPlans() {
-            dispatch(selectHelpsByStudentRequest({ id: idStudent }));
+            dispatch(selectHelpsByStudentRequest({ id: idStudent, limit }));
         }
 
         loadPlans();
-    }, [dispatch, idStudent]);
+    }, [dispatch, idStudent, limit]);
+
+    async function loadPlans() {
+        setLimit(limit + more);
+        dispatch(selectHelpsByStudentRequest({ id: idStudent, limit }));
+    }
+
+    function renderFooter() {
+        if (!loading) return null;
+
+        return (
+            <View>
+                <ActivityIndicator />
+            </View>
+        );
+    }
 
     return (
         <View>
@@ -101,11 +118,14 @@ export default function QuestionList({ navigation }) {
                                 </CustomCard>
                             </TouchableOpacity>
                         )}
+                        onEndReached={loadPlans}
+                        onEndReachedThreshold={0.1}
+                        ListFooterComponent={renderFooter}
                     />
                 </Container>
             ) : (
                 <Container>
-                    <Text>Loading...</Text>
+                    <ActivityIndicator />
                 </Container>
             )}
         </View>

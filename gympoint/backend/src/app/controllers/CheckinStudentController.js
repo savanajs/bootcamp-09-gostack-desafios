@@ -6,12 +6,13 @@ import Cache from '../../lib/Cache';
 class CheckinController {
   async index(req, res) {
     const { page = 1 } = req.query;
+    const { limit = 20 } = req.query;
     const { student_id } = req.params;
-    const cacheKey = `checkin:${student_id}:checkins:${page}`;
+    const cacheKey = `checkin:${student_id}:checkins:${page}-${limit}`;
     const cached = await Cache.get(cacheKey);
-    const limit = 20;
 
     const checkins = await Checkin.findAll({
+      order: [['id', 'DESC']],
       limit,
       offset: (page - 1) * limit,
       where: { student_id },
@@ -38,6 +39,7 @@ class CheckinController {
     await Cache.invalidatePrefix(`checkin:${student_id}:checkins`);
 
     const checkins_response = await Checkin.findAll({
+      order: [['id', 'DESC']],
       limit,
       offset: 0,
       where: { student_id },

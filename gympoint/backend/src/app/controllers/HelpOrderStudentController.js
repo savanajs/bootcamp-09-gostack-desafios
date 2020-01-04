@@ -15,6 +15,7 @@ class HelpOrderController {
     }
 
     const helps = await HelpOrder.findAll({
+      order: [['id', 'DESC']],
       include: [
         {
           model: Student,
@@ -31,7 +32,9 @@ class HelpOrderController {
 
   async getByStudent(req, res) {
     const { student_id } = req.params;
-    const cacheKey = `byStudent:${student_id}:helporders:1`;
+    const { page = 1 } = req.query;
+    const { limit = 20 } = req.query;
+    const cacheKey = `byStudent:${student_id}:helporders:${page}-${limit}`;
     const cached = await Cache.get(cacheKey);
 
     if (cached) {
@@ -39,6 +42,9 @@ class HelpOrderController {
     }
 
     const helps = await HelpOrder.findAll({
+      order: [['id', 'DESC']],
+      limit,
+      offset: (page - 1) * limit,
       where: { student_id },
       include: [
         {
@@ -93,6 +99,7 @@ class HelpOrderController {
       student_id,
       ...req.body,
     };
+    const limit = 20;
 
     const help = await HelpOrder.create(body);
 
@@ -105,6 +112,9 @@ class HelpOrderController {
     await Cache.invalidatePrefix(`byStudent:${student_id}:helporders`);
 
     const helps = await HelpOrder.findAll({
+      order: [['id', 'DESC']],
+      limit,
+      offset: 0,
       include: [
         {
           model: Student,

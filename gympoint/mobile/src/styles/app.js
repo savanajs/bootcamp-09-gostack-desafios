@@ -51,9 +51,17 @@ export const Space = styled.View`
     height: 20px;
 `;
 
+export const Strong = styled.Text`
+    font-weight: bold;
+`;
+
 export const List = styled.FlatList.attrs({
     showVerticalScrollIndicator: false,
     contentContainerStyle: {
         paddingBottom: 40,
     },
 })``;
+
+export const SubmitButton = styled(Button)`
+    margin-top: 5px;
+`;

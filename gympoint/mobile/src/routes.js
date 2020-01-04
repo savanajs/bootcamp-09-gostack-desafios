@@ -10,6 +10,7 @@ import QuestionList from './pages/QuestionList';
 import QuestionForm from './pages/QuestionForm';
 import CheckinList from './pages/CheckinList';
 import Answer from './pages/Answer';
+import Logout from './pages/Logout';
 
 import logo from './assets/logo-primary.png';
 
@@ -81,6 +82,39 @@ export default (signedIn = true) =>
                                 <Icon
                                     focused={focused}
                                     name="live-help"
+                                    size={20}
+                                    color={
+                                        focused ? '#ee4e62' : 'rgba(0,0,0,.3)'
+                                    }
+                                />
+                            ),
+                            tabBarOptions: {
+                                activeTintColor: '#ee4e62',
+                            },
+                        },
+                    },
+                    Logoff: {
+                        screen: createStackNavigator(
+                            {
+                                Logout,
+                            },
+                            {
+                                defaultNavigationOptions: {
+                                    headerTransparent: false,
+                                    headerTintColor: '#000',
+                                    headerLeftContainerStyle: {
+                                        marginLeft: 20,
+                                    },
+                                },
+                            }
+                        ),
+                        navigationOptions: {
+                            tabBarVisible: true,
+                            tabBarLabel: 'Sair',
+                            tabBarIcon: ({ focused }) => (
+                                <Icon
+                                    focused={focused}
+                                    name="exit-to-app"
                                     size={20}
                                     color={
                                         focused ? '#ee4e62' : 'rgba(0,0,0,.3)'

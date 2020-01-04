@@ -10,6 +10,7 @@ import {
     CustomCardHeaderTextLeft,
     CustomCardHeaderTextRight,
     CustomCardContent,
+    Strong,
 } from '../../styles/app';
 
 import Logo from '../../components/Logo';
@@ -23,7 +24,7 @@ export default function Answer({ navigation }) {
                 <CustomCard>
                     <CustomCardHeader>
                         <CustomCardHeaderTextLeft>
-                            <Text>Pergunta</Text>
+                            <Strong>Pergunta</Strong>
                         </CustomCardHeaderTextLeft>
                         <CustomCardHeaderTextRight>
                             <Text>{question.createdAt}</Text>
@@ -35,7 +36,7 @@ export default function Answer({ navigation }) {
                             <Space />
                             <CustomCardHeader>
                                 <CustomCardHeaderTextLeft>
-                                    <Text>Resposta</Text>
+                                    <Strong>Resposta</Strong>
                                 </CustomCardHeaderTextLeft>
                                 <CustomCardHeaderTextRight>
                                     <Text>{question.answer_at}</Text>
@@ -46,7 +47,12 @@ export default function Answer({ navigation }) {
                             </CustomCardContent>
                         </>
                     ) : (
-                        <Text />
+                        <>
+                            <Space />
+                            <CustomCardContent>
+                                Ainda não tem resposta para essa pergunta
+                            </CustomCardContent>
+                        </>
                     )}
                 </CustomCard>
             </Container>
