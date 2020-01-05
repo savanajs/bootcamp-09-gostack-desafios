@@ -25,6 +25,12 @@ const Container = styled.div`
         margin-left: 15px;
         .input {
           width: 237px;
+          @media screen and (max-width: 767px) {
+            width: 100%;
+          }
+        }
+        @media screen and (max-width: 767px) {
+          margin-left: 0px;
         }
       }
     }
@@ -94,6 +100,26 @@ const Container = styled.div`
     color: #cccccc;
     &.active {
       color: #42cb59;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .list__header {
+      flex-direction: column;
+      .col-right {
+        flex-direction: column;
+        .btn {
+          text-align: center;
+          display: block;
+        }
+      }
+      .col-left {
+        margin-bottom: 20px;
+      }
+
+      .area-button {
+        margin-bottom: 10px;
+      }
     }
   }
 `;

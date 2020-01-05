@@ -8,11 +8,20 @@ export const FormWrapper = styled.div`
   }
   .input-group {
     display: flex;
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+    }
     > .input-control {
       margin-top: 0px;
       flex: 1;
+      @media screen and (max-width: 767px) {
+        margin-bottom: 20px;
+      }
       & + .input-control {
         margin-left: 20px;
+        @media screen and (max-width: 767px) {
+          margin-left: 0px;
+        }
       }
     }
   }

@@ -101,7 +101,7 @@ export default function SavePlan({ match }) {
               <button
                 type="submit"
                 form="form-create"
-                className="btn btn--normal btn--primary btn-link"
+                className="btn btn--normal btn--primary"
               >
                 <i className="fa fa-plus" aria-hidden="true" />
                 {loading ? 'Salvando....' : 'Cadastrar'}

@@ -7,6 +7,11 @@ export const Container = styled.header`
   border-bottom: 1px solid #dddddd;
   margin-bottom: 40px;
 
+  @media screen and (max-width: 767px) {
+    padding: 20px 0px;
+    height: auto;
+  }
+
   > .area-center {
     max-width: 1264px;
     margin: 0 auto;
@@ -56,6 +61,22 @@ export const Container = styled.header`
           text-decoration: underline;
         }
       }
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .area-center {
+      flex-direction: column;
+    }
+
+    .area-logo {
+      margin: 0px 0px 10px 0px !important;
+    }
+
+    .area-nav {
+      padding: 0px 5px !important;
+      border: none !important;
+      margin-bottom: 10px;
     }
   }
 `;
