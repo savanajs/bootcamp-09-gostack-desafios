@@ -11,8 +11,6 @@ import {
   updateAnwserByStudentRequest,
 } from '../../store/modules/help/actions';
 
-import Paginate from '../../components/Paginate';
-
 const schema = Yup.object().shape({
   answer: Yup.string().required('A resposta é obrigatória'),
 });
@@ -46,8 +44,9 @@ export default function Helps() {
     setModalOpen(false);
   }
 
-  function handleSubmit({ answer }) {
-    dispatch(updateAnwserByStudentRequest(help.id, answer));
+  async function handleSubmit({ answer }) {
+    await dispatch(updateAnwserByStudentRequest(help.id, answer));
+    handleCloseModal();
   }
 
   return (
@@ -89,7 +88,7 @@ export default function Helps() {
               </>
             ) : (
               <>
-                {!loading ? (
+                {!loading && helps.length ? (
                   <div className="message warn">Carregando....</div>
                 ) : (
                   <div className="message warn">Resultados não encontrados</div>
@@ -122,7 +121,7 @@ export default function Helps() {
                 </div>
                 <div className="input-control">
                   <button
-                    type="button"
+                    type="submit"
                     className="btn btn--large btn--center btn--primary"
                   >
                     {loading ? '...aguarde' : 'Responder aluno'}

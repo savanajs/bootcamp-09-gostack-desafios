@@ -31,7 +31,7 @@ export function* updateEnrollment({ payload }) {
       requestData(payload)
     );
 
-    toast.success('Estudante atualizado com sucesso!');
+    toast.success('Matricula atualizada com sucesso!');
 
     yield put(updateEnrollmentSuccess(response.data));
 
@@ -46,7 +46,7 @@ export function* createEnrollment({ payload }) {
   try {
     const response = yield call(api.post, 'enrollments', requestData(payload));
 
-    toast.success('Estudante criado com sucesso!');
+    toast.success('Matricula criada com sucesso!');
 
     yield put(createEnrollmentSuccess(response.data));
 
@@ -76,7 +76,7 @@ export function* deleteEnrollment({ payload }) {
   try {
     const response = yield call(api.delete, `enrollments/${id}`);
 
-    toast.success('Estudante excluido com sucesso!');
+    toast.success('Matricula excluida com sucesso!');
 
     yield put(selectEnrollmentsSuccess(response.data));
 

@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  database:
+    image: postgres:11
+    container_name: database
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: docker
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+  redisdb:
+    image: redis:alpine
+    container_name: redisgympoint
+    restart: always
+    ports:
+      - "6379:6379"

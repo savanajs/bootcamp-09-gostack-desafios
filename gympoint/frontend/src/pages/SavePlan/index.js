@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -64,7 +64,6 @@ export default function SavePlan({ match }) {
   }
 
   function handlePrice(e, maskedvalue, floatvalue) {
-    console.log(floatvalue);
     setPlan({
       ...plan,
       price: floatvalue,

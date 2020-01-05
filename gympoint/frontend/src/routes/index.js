@@ -12,7 +12,6 @@ import Helps from '../pages/Helps';
 import SaveStudent from '../pages/SaveStudent';
 import SavePlan from '../pages/SavePlan';
 import SaveEnrollment from '../pages/SaveEnrollment';
-import SaveHelp from '../pages/SaveHelp';
 
 export default function Routes() {
   return (

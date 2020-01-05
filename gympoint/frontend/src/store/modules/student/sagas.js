@@ -69,7 +69,7 @@ export function* selectStudents({ payload }) {
     toast.error(err.response.data.error);
     if (err.response.data.error === 'Token invalid') {
       localStorage.removeItem('persist:gympoint');
-      window.reload();
+      window.location.reload();
     }
     yield put(studentFailure());
   }

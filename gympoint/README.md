@@ -2,6 +2,24 @@
 
 ## Back-end
 
+### Docker
+
+- Postgree
+- Redis
+- Mongo
+
+Rodar containers
+
+```sh
+docker-compose up -d
+```
+
+Parar containers
+
+```sh
+docker-compose stop
+```
+
 ### Database
 
 Postgree
@@ -13,7 +31,7 @@ gympoint
 #### Rodar migrates
 
 ```sh
-yarn sequelize db:migrate:undo:all
+yarn sequelize db:migrate
 ```
 
 #### Rodar seeds
@@ -64,14 +82,6 @@ yarn start
 
 #### Instalar dependencias
 
-1.Copy gradle folder inside android/ from my existing working project root
-
-2.Go to android directory and run this: ./gradlew installDebug
-
-3.Now copy your gradle folder back to the original location.
-
-4.Delete node_modules e yarn install
-
 ```sh
 yarn install
 ```
@@ -81,3 +91,13 @@ yarn install
 ```sh
 react-native run-android
 ```
+
+#### Em caso de erro
+
+1.Copy gradle folder inside android/ from my existing working project root
+
+2.Go to android directory and run this: ./gradlew installDebug
+
+3.Now copy your gradle folder back to the original location.
+
+4.Delete node_modules e yarn install

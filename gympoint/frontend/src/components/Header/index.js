@@ -8,13 +8,12 @@ import logo from '../../assets/logo-secondary.png';
 
 import { signOut } from '../../store/modules/auth/actions';
 
-export default function Header(props) {
+export default function Header() {
   const dispatch = useDispatch();
   const profile = useSelector(state => state.auth.user);
   const [pageCurrent, setPageCurrent] = useState(
     window.location.pathname.substr(1)
   );
-  console.log(props);
 
   function handleSignOut() {
     dispatch(signOut());

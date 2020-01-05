@@ -6,7 +6,6 @@ import api from '../../../services/api';
 import { helpFailure, selectHelpsSuccess } from './actions';
 
 export function* updateAnwserByStudent({ payload }) {
-  console.log('payload', arguments);
   const { id } = payload;
 
   delete payload.id;
@@ -18,7 +17,7 @@ export function* updateAnwserByStudent({ payload }) {
       payload
     );
 
-    toast.success('Estudante atualizado com sucesso!');
+    toast.success('Pedido de ajuda atualizado com sucesso!');
 
     yield put(selectHelpsSuccess(response.data));
   } catch (err) {
