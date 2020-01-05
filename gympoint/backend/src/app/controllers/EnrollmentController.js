@@ -153,8 +153,21 @@ class EnrollmentController {
 
     await Cache.invalidatePrefix(`enrollment:default:enrollments`);
 
-    const Enrollments = await Enrollment.findAll({
-      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
+    const limit = 20;
+    const page = 1;
+
+    const Enrollments = await Enrollment.findAndCountAll({
+      limit,
+      offset: (page - 1) * limit,
+      attributes: [
+        'id',
+        'student_id',
+        'plan_id',
+        'start_date',
+        'end_date',
+        'price',
+        'active',
+      ],
       include: [
         {
           model: Student,
@@ -169,7 +182,13 @@ class EnrollmentController {
       ],
     });
 
-    return res.json(Enrollments);
+    const pages = Math.round(Enrollments.count / limit);
+
+    return res.json({
+      pages,
+      count: Enrollments.count,
+      rows: Enrollments.rows,
+    });
   }
 }
 

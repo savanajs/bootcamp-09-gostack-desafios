@@ -102,9 +102,21 @@ class StudentController {
 
     await Cache.invalidatePrefix(`student:default:students`);
 
-    const students = await Student.findAll();
+    const limit = 20;
+    const page = 1;
 
-    return res.json(students);
+    const students = await Student.findAndCountAll({
+      limit,
+      offset: (page - 1) * limit,
+    });
+
+    const pages = Math.round(students.count / limit);
+
+    return res.json({
+      pages,
+      count: students.count,
+      rows: students.rows,
+    });
   }
 }
 

@@ -70,9 +70,21 @@ class PlanController {
 
     await Cache.invalidatePrefix(`plan:default:plans`);
 
-    const plans = await Plan.findAll();
+    const limit = 20;
+    const page = 1;
 
-    return res.json(plans);
+    const plans = await Plan.findAndCountAll({
+      limit,
+      offset: (page - 1) * limit,
+    });
+
+    const pages = Math.round(plans.count / limit);
+
+    return res.json({
+      pages,
+      count: plans.count,
+      rows: plans.rows,
+    });
   }
 }
 
