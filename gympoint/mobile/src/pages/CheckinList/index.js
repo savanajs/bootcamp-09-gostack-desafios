@@ -46,7 +46,7 @@ export default function CheckinList() {
         }
 
         loadPlans();
-    }, [dispatch, idStudent, limit]);
+    }, [dispatch, idStudent]); /* eslint-disable-line */
 
     function makeCheckin() {
         dispatch(

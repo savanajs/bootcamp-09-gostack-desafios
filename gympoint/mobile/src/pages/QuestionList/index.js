@@ -49,7 +49,7 @@ export default function QuestionList({ navigation }) {
         }
 
         loadPlans();
-    }, [dispatch, idStudent, limit]);
+    }, [dispatch, idStudent]); /* eslint-disable-line */
 
     async function loadPlans() {
         setLimit(limit + more);
