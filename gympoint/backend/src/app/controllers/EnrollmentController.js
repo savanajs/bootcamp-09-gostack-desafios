@@ -16,7 +16,7 @@ class EnrollmentController {
     const { page = 1 } = req.query;
     const cacheKey = `enrollment:default:enrollments:${page}`;
     const cached = await Cache.get(cacheKey);
-    const limit = 20;
+    const { limit = 20 } = req.query;
 
     if (cached) {
       return res.json(cached);

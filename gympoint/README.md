@@ -1,12 +1,12 @@
 # Gympoint
 
-## Backend
+## Back-end
 
 ### Database
 
 Postgree
 
-#### Name database
+#### Nome do banco de dados
 
 gympoint
 
@@ -18,7 +18,7 @@ yarn sequelize db:migrate:undo:all
 
 #### Rodar seeds
 
-- Usuario
+- Usuário
 - Estudantes
 - Planos
 
@@ -60,7 +60,7 @@ yarn install
 yarn start
 ```
 
-## Mobile (Android)
+## Mobile (Only Android)
 
 #### Instalar dependencias
 
@@ -79,5 +79,5 @@ yarn install
 #### Rodar o app
 
 ```sh
-yarn start
+react-native run-android
 ```

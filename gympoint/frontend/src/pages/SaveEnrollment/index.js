@@ -78,7 +78,7 @@ export default function SaveEnrollment({ match }) {
 
   useEffect(() => {
     async function loadStudents() {
-      await dispatch(selectStudentsRequest(''));
+      await dispatch(selectStudentsRequest());
     }
 
     loadStudents();

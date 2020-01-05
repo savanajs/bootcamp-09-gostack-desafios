@@ -59,12 +59,18 @@ export function* createStudent({ payload }) {
 }
 
 export function* selectStudents({ payload }) {
+  const { limit = 20 } = payload;
+
   try {
-    const response = yield call(api.get, `students${payload.query}`);
+    const response = yield call(api.get, `students?limit=${limit}`);
 
     yield put(selectStudentsSuccess(response.data));
   } catch (err) {
     toast.error(err.response.data.error);
+    if (err.response.data.error === 'Token invalid') {
+      localStorage.removeItem('persist:gympoint');
+      window.reload();
+    }
     yield put(studentFailure());
   }
 }

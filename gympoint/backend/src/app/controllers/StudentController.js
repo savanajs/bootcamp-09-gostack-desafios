@@ -7,7 +7,7 @@ class StudentController {
   async index(req, res) {
     const { q } = req.query;
     const { page = 1 } = req.query;
-    const limit = req.query.page ? 20 : 1000;
+    const { limit = 20 } = req.query;
     let students;
 
     if (q) {
@@ -22,7 +22,7 @@ class StudentController {
 
       students = await Student.findAndCountAll(where);
     } else {
-      const cacheKey = `student:default:students:${page}`;
+      const cacheKey = `student:default:students:${page}-${limit}`;
       const cached = await Cache.get(cacheKey);
 
       if (cached) {

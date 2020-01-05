@@ -7,12 +7,12 @@ class PlanController {
     const { page = 1 } = req.query;
     const cacheKey = `plan:default:plans:${page}`;
     const cached = await Cache.get(cacheKey);
+    const { limit = 20 } = req.query;
 
     if (cached) {
       return res.json(cached);
     }
 
-    const limit = req.query.page ? 20 : 1000;
     const plans = await Plan.findAndCountAll({
       limit,
       offset: (page - 1) * limit,
